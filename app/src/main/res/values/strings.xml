@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">MisBazares</string>
+    <string name="title_home">Home</string>
+    <string name="title_events">Events</string>
+    <string name="title_notifications">Config</string>
+    <string name="title_close">Close</string>
+    <string name="title_close_session">Cerrar sesión</string>
+    <string name="generate_event">Generar evento</string>
+    <string name="view_event">Ver eventos</string>
+    <string name="manage_suppliers">Administrar proveedores</string>
+    <string name="manage_sellers">Administrar vendedores</string>
+    <string name="manage_enclosures">Administrar recintos</string>
+    <string name="manage_furnitures">Administrar listas de mobiliario</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_event">Crear evento</string>
+    <string name="publish_event">Publicar evento</string>
+    <string name="new_event_title">Estoy junto al contenedor FragmentContainerView</string>
+    <string name="event_name">Nombre del evento</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="enter_required">Ingrese usuario y contraseña</string>
+    <string name="enter_requiredReg">Todos los campos son requeridos</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login">Ingresar</string>
+    <string name="register">Registrar usuario</string>
+    <string name="title_login">Ingresar</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="user_hint">Usuario</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="title">Título</string>
+    <string name="location">Ubicación</string>
+    <string name="no_events">¡No hay eventos registrados!</string>
+
+    <!-- DROPDOWN ROL ITEMS VALUES -->
+    <string-array name="roles">
+        <item>Organizador</item>
+        <item>Vendedor</item>
+    </string-array>
+
+    <!-- DROPDOWN GENDER ITEMS VALUES -->
+    <string-array name="gender">
+        <item>Hombre</item>
+        <item>Mujer</item>
+    </string-array>
+
+</resources>

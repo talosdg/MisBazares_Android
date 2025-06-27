@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/icon_unselected"
+    tools:context=".ui.login.RegisterFragment">
+
+    <!-- LAYOUT GUIDES -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glStart"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glEnd"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTop"
+        app:layout_constraintGuide_percent="0.15"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--  -->
+
+    <ImageView
+        android:id="@+id/ivLogoLogin"
+        android:src="@drawable/logo"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="@id/glTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/tvCreateA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:height="50dp"
+        android:text="@string/create_account"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/glTop"
+        />
+
+
+    <EditText
+        android:id="@+id/etUser"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/user_hint"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/tvCreateA"
+
+        />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dwRol"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etUser"
+        android:hint="Elige tu rol">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoSelectedRol"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingVertical="8dp"
+            android:background="@color/white"
+            tools:text="Rol a elegir"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="nombre"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/dwRol"
+        tools:ignore="RtlSymmetry" />
+
+
+    <EditText
+        android:id="@+id/etSecondName"
+
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:hint="apellidos"
+        android:paddingStart="10dp"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etName"
+
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:hint="email"
+        android:paddingStart="10dp"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etSecondName"
+
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/etPhone"
+        android:inputType="phone"
+        android:maxLength="10"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="teléfono"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+
+        tools:ignore="RtlSymmetry" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dwGender"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etPhone"
+        android:hint="Género">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoSelectedGender"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingVertical="8dp"
+            android:background="@color/white"
+            tools:text="Género a elegir"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:inputType="textPassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/password_hint"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/dwGender"
+
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/etConfirmPass"
+        android:inputType="textPassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/password_hint"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/etConfirmPass" />
+
+    <TextView
+        android:id="@+id/linkPrivacy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/midindigo"
+        android:text="Al crear la cuenta está aceptando los términos,
+la política de privacidad y manejo de datos."
+        app:layout_constraintEnd_toStartOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+
+
+        app:layout_constraintTop_toBottomOf="@+id/btSave" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

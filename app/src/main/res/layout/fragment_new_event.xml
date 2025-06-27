@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.trigger.NewEventFragment">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glStart"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenterA"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".48"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenterB"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glEnd"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTop"
+        app:layout_constraintGuide_percent=".1"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glMid"
+        app:layout_constraintGuide_percent=".5"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:id="@+id/etEventName"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:textSize="26sp"
+        android:hint="@string/event_name"
+        app:layout_constraintTop_toBottomOf="@+id/glTop"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.037" />
+    <EditText
+        android:id="@+id/temp1"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:textSize="26sp"
+        android:hint="Recinto temp"
+        app:layout_constraintTop_toBottomOf="@+id/etEventName"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.037" />
+    <EditText
+        android:id="@+id/temp2"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:textSize="26sp"
+        android:hint="Mobiliario Temp"
+        app:layout_constraintTop_toBottomOf="@+id/temp1"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.037" />
+    <EditText
+        android:id="@+id/temp3"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:textSize="26sp"
+        android:hint="Plazas temp + RB"
+        app:layout_constraintTop_toBottomOf="@+id/temp2"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.037" />
+
+
+    <Button
+        android:id="@+id/btCreateEvent"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:text="@string/create_event"
+        android:textSize="22sp"
+
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/glMid" />
+
+    <Button
+        android:id="@+id/btPublishEvent"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:text="@string/publish_event"
+        android:textSize="22sp"
+        android:backgroundTint="@color/lightrose"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/btCreateEvent"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lightrose">#DBB3D1</color>
+    <color name="darkteal">#50799A</color>
+    <color name="darkpurple">#525C97</color>
+    <color name="purple">#747CBA</color>
+    <color name="rose">#9C6D8E</color>
+    <color name="darkrose">#5B3A51</color>
+    <color name="aloegreen">#509963</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="midindigo">#757CB3</color>
+
+    <color name="icon_selected">#36244D</color>
+    <color name="icon_unselected">#EDDCF8</color>
+
+    <color name="snakbar_red">#92253F</color>
+    <color name="snakbar_green">#61AB47</color>
+
+    <color name="text_error">#D30055</color>
+    <color name="text_hint">#A4A4A4</color>
+
+</resources>

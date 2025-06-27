@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glStart"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenterA"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".48"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenterB"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glEnd"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:height="60dp"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/glTop"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btTriggerEvent"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:text="@string/generate_event"
+        android:drawableLeft="@drawable/baseline_check_24"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
+
+    <Button
+        android:id="@+id/btViewEvent"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:text="@string/view_event"
+        android:drawableLeft="@drawable/baseline_calendar_month_24"
+        android:textSize="22sp"
+        android:backgroundTint="@color/rose"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/btTriggerEvent" />
+
+    <Button
+        android:id="@+id/btSuppliers"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:text="@string/manage_suppliers"
+        android:drawableTop="@drawable/baseline_person_4_24"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:textColor="@color/lightrose"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/btViewEvent"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintEnd_toEndOf="@id/glCenterA"
+        />
+
+    <Button
+        android:id="@+id/btSellers"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:text="@string/manage_sellers"
+        android:drawableTop="@drawable/baseline_emoji_people_24"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:textColor="@color/lightrose"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/btViewEvent"
+        app:layout_constraintStart_toStartOf="@id/glCenterB"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        />
+
+    <Button
+        android:id="@+id/btEnclosures"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:backgroundTint="@color/white"
+        android:drawableTop="@drawable/baseline_storefront_24"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:text="@string/manage_enclosures"
+        android:textColor="@color/lightrose"
+        app:layout_constraintEnd_toEndOf="@id/glCenterA"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/btSuppliers" />
+
+    <Button
+        android:id="@+id/btFurniture"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:backgroundTint="@color/white"
+        android:drawableTop="@drawable/baseline_format_list_bulleted_24"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:text="@string/manage_furnitures"
+        android:textColor="@color/lightrose"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glCenterB"
+        app:layout_constraintTop_toBottomOf="@id/btSellers" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
