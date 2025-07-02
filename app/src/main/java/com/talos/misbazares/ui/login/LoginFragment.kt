@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
 
             view.hideKeyboard()
 
-            if (loginText.isEmpty() || passwordText.isEmpty()) {
+           /* if (loginText.isEmpty() || passwordText.isEmpty()) {
                 showSnackbar(
                     binding.root,
                     getString(R.string.enter_required),
@@ -44,12 +44,12 @@ class LoginFragment : Fragment() {
                     R.color.white
                 )
             }else
-            {
+            {*/
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 requireActivity().finish()
-            }
+         /*   }*/
 
 
 

@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.FragmentManager
+import com.talos.misbazares.ui.events.EventDialog
 
 fun Activity.toast(text: String){
     Toast.makeText(
@@ -66,4 +68,15 @@ fun Fragment.confirmExitOnBackPress(
                 .show()
         }
     })
+}
+fun showDetail(
+    fragmentManager: FragmentManager,
+    updateUI: () -> Unit,
+    message: (String) -> Unit
+) {
+    val dialog = EventDialog(
+        updateUI = updateUI,
+        message = message
+    )
+    dialog.show(fragmentManager, "dialogo1")
 }

@@ -1,29 +1,22 @@
 package com.talos.misbazares.ui.home
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
+import android.media.MediaSyncEvent.createEvent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.color.MaterialColors
-import com.talos.misbazares.MainActivity
 
 import com.talos.misbazares.NewEventActivity
 import com.talos.misbazares.R
 import com.talos.misbazares.confirmExitOnBackPress
 import com.talos.misbazares.databinding.FragmentHomeBinding
-import com.talos.misbazares.disableBackPress
-import com.talos.misbazares.ui.events.EventsFragment
-import com.talos.misbazares.ui.managelists.SuppliersFragment
+import com.talos.misbazares.showDetail
 
 class HomeFragment : Fragment() {
 
@@ -41,12 +34,15 @@ class HomeFragment : Fragment() {
 
         val textView: TextView = binding.tvWelcome
         homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = "Bienvenida Maribel " // dato dinámico it
+            textView.text = "Bienvenido XYZ " // dato dinámico it
         }
 
         binding.btTriggerEvent.setOnClickListener {
-            val intent = Intent(binding.root.context, NewEventActivity::class.java)
-            startActivity(intent)
+            showDetail(
+                parentFragmentManager,
+                updateUI = { updateUI() },
+                message = { text -> message("Se generó el evento") }
+            )
         }
 
         binding.btViewEvent.setOnClickListener {
@@ -54,17 +50,10 @@ class HomeFragment : Fragment() {
             bottomNav.selectedItemId = R.id.navigation_events
         }
 
-        binding.btSuppliers.setOnClickListener {
-
-            val fragment = SuppliersFragment()
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_activity_main, fragment)
-                .addToBackStack(null)
-                .commit()
-
+        binding.btSellers.setOnClickListener {
+            val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            bottomNav.selectedItemId = R.id.navigation_sellers
         }
-
 
         return binding.root
     }
@@ -77,5 +66,13 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun updateUI() {
+        // Aquí actualiza la UI del HomeFragment
+    }
+
+    private fun message(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 }

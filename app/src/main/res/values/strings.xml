@@ -2,6 +2,7 @@
     <string name="app_name">MisBazares</string>
     <string name="title_home">Home</string>
     <string name="title_events">Events</string>
+    <string name="title_sellers">Sellers</string>
     <string name="title_notifications">Config</string>
     <string name="title_close">Close</string>
     <string name="title_close_session">Cerrar sesión</string>
@@ -37,6 +38,10 @@
     <string name="title">Título</string>
     <string name="location">Ubicación</string>
     <string name="no_events">¡No hay eventos registrados!</string>
+    <string name="startDate">Fecha de inicio</string>
+    <string name="endDate">Fecha de termino</string>
+    <string name="icono_header">icono de encabezado</string>
+
 
     <!-- DROPDOWN ROL ITEMS VALUES -->
     <string-array name="roles">

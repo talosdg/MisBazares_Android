@@ -65,6 +65,7 @@
         android:text="@string/generate_event"
         android:drawableLeft="@drawable/baseline_check_24"
         android:textSize="22sp"
+        android:backgroundTint="@color/darkteal"
         app:layout_constraintEnd_toEndOf="@id/glEnd"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/glStart"
@@ -84,64 +85,18 @@
         app:layout_constraintTop_toBottomOf="@id/btTriggerEvent" />
 
     <Button
-        android:id="@+id/btSuppliers"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:text="@string/manage_suppliers"
-        android:drawableTop="@drawable/baseline_person_4_24"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp"
-        android:textColor="@color/lightrose"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/btViewEvent"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        app:layout_constraintEnd_toEndOf="@id/glCenterA"
-        />
-
-    <Button
         android:id="@+id/btSellers"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
         android:text="@string/manage_sellers"
-        android:drawableTop="@drawable/baseline_emoji_people_24"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp"
-        android:textColor="@color/lightrose"
-        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/baseline_emoji_people_24"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toBottomOf="@id/btViewEvent"
-        app:layout_constraintStart_toStartOf="@id/glCenterB"
+        app:layout_constraintStart_toStartOf="@id/glStart"
         app:layout_constraintEnd_toEndOf="@id/glEnd"
         />
-
-    <Button
-        android:id="@+id/btEnclosures"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:backgroundTint="@color/white"
-        android:drawableTop="@drawable/baseline_storefront_24"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp"
-        android:text="@string/manage_enclosures"
-        android:textColor="@color/lightrose"
-        app:layout_constraintEnd_toEndOf="@id/glCenterA"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        app:layout_constraintTop_toBottomOf="@id/btSuppliers" />
-
-    <Button
-        android:id="@+id/btFurniture"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:backgroundTint="@color/white"
-        android:drawableTop="@drawable/baseline_format_list_bulleted_24"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:text="@string/manage_furnitures"
-        android:textColor="@color/lightrose"
-        app:layout_constraintEnd_toEndOf="@id/glEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/glCenterB"
-        app:layout_constraintTop_toBottomOf="@id/btSellers" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

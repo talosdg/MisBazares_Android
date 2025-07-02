@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_events" />
 
     <fragment
-        android:id="@+id/navigation_config"
-        android:name="com.talos.misbazares.ui.config.ConfigFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_sellers"
+        android:name="com.talos.misbazares.ui.sellers.SellersFragment"
+        android:label="@string/title_sellers"
+        tools:layout="@layout/fragment_sellers" />
 
 </navigation>

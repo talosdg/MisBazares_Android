@@ -1,4 +1,4 @@
-package com.talos.misbazares.ui.managelists
+package com.talos.misbazares.ui.sellers
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

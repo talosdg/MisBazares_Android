@@ -12,9 +12,9 @@
         android:title="@string/title_events" />
 
     <item
-        android:id="@+id/navigation_config"
+        android:id="@+id/navigation_sellers"
         android:icon="@drawable/baseline_miscellaneous_services_24"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_sellers" />
 
     <item
         android:id="@+id/navigation_close"

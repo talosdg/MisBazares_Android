@@ -11,7 +11,6 @@ class EventsViewHolder(
     private val binding: EventElementBinding
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(event: EventEntity){
-
         binding.apply{
             tvTitle.text = event.title
             tvAdmin.text = event.admin
@@ -19,7 +18,4 @@ class EventsViewHolder(
             tvLocation.text = event.location
         }
     }
-
-
-
 }

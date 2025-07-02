@@ -13,6 +13,7 @@ import com.talos.misbazares.application.EventsDBApp
 import com.talos.misbazares.data.EventsRepository
 import com.talos.misbazares.data.db.model.EventEntity
 import com.talos.misbazares.databinding.FragmentEventsBinding
+import com.talos.misbazares.showDetail
 import kotlinx.coroutines.launch
 
 class EventsFragment : Fragment() {
@@ -35,7 +36,7 @@ class EventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        repository = (requireActivity().application as EventsDBApp).repository
+        repository = (requireActivity().application as EventsDBApp).eventsRepository
 
         eventAdapter = EventsAdapter { selectedEvent ->
             val dialog = EventDialog(
@@ -52,9 +53,12 @@ class EventsFragment : Fragment() {
 
         updateUI()
 
-        // Asumiendo que tienes un botón en el layout fragment_events.xml
         binding.fabAddEvent.setOnClickListener {
-            createEvent()
+            showDetail(
+                parentFragmentManager,
+                updateUI = { updateUI() },
+                message = { text -> message(text) }
+            )
         }
     }
 
@@ -67,14 +71,6 @@ class EventsFragment : Fragment() {
 
             eventAdapter.updatelist(events)
         }
-    }
-
-    private fun createEvent() {
-        val dialog = EventDialog(
-            updateUI = { updateUI() },
-            message = { text -> message(text) }
-        )
-        dialog.show(parentFragmentManager, "dialogo1")
     }
 
     private fun message(text: String) {

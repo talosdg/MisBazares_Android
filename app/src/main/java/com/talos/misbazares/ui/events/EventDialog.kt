@@ -5,7 +5,9 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
+import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
@@ -156,7 +158,7 @@ class EventDialog(
         super.onStart()
 
         // instancia del repo acceso desde fragment requireContext().applicationContext
-        repository = (requireContext().applicationContext as EventsDBApp).repository
+        repository = (requireContext().applicationContext as EventsDBApp).eventsRepository
 
         saveButton = (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE)
         saveButton?.isEnabled = false
