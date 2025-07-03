@@ -13,7 +13,7 @@ class EventsViewHolder(
     fun bind(event: EventEntity){
         binding.apply{
             tvTitle.text = event.title
-            tvAdmin.text = event.adminId
+            tvAdmin.text = event.userId
             tvPlaces.text = event.places.toString()
             tvLocation.text = event.location
         }

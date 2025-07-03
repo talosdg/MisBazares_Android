@@ -26,18 +26,12 @@ class EventsFragment : Fragment() {
     private var events: MutableList<EventEntity> = mutableListOf()
     private lateinit var repository: EventsRepository
     private lateinit var eventAdapter: EventsAdapter
-    val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
-
-    val userId = sharedPrefs.getLong("userId", -1L)
-    val userRol = sharedPrefs.getInt("userRol", -1)
-
 
     private val viewModel: EventsViewModel by viewModels {
         EventsViewModelFactory(
             (requireActivity().application as EventsDBApp).eventsRepository
         )
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +46,13 @@ class EventsFragment : Fragment() {
 
         repository = (requireActivity().application as EventsDBApp).eventsRepository
 
+        val userRol = getUserRolFromSession() // uso posterior
 
+        fun getUserIdAsString(): String {
+            val id = getUserIdFromSession()
+            return id.toString()
+        }
+        viewModel.loadUserEvents(getUserIdAsString())
 
         eventAdapter = EventsAdapter { selectedEvent ->
             val dialog = EventDialog(
@@ -63,18 +63,10 @@ class EventsFragment : Fragment() {
             )
             dialog.show(parentFragmentManager, "dialog2")
         }
-
-        viewModel.adminEventsLiveData.observe(viewLifecycleOwner) { events ->
-            // Aquí actualizas el Adapter
+        viewModel.eventsLiveData.observe(viewLifecycleOwner) { events ->
+        // Aquí actualizas el Adapter
             eventAdapter.updatelist(events.toMutableList())
         }
-
-        // ejemplo: adminId obtenido de sesión
-        val adminId = getAdminIdFromSession()
-        viewModel.loadAdminEvents(adminId)
-
-
-
 
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = eventAdapter
@@ -90,24 +82,27 @@ class EventsFragment : Fragment() {
         }
     }
 
-    private fun getAdminIdFromSession(): Long {
-        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
-        return sharedPrefs.getLong("userId", -1L)
-    }
-
     private fun updateUI() {
         viewLifecycleOwner.lifecycleScope.launch {
             events = repository.getAllEvents()
-
             binding.tvSinRegistros.visibility =
                 if (events.isNotEmpty()) View.INVISIBLE else View.VISIBLE
-
             eventAdapter.updatelist(events)
         }
     }
 
     private fun message(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getUserIdFromSession(): Long {
+        val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return prefs.getLong("userId", -1L)
+    }
+
+    private fun getUserRolFromSession(): Int {
+        val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return prefs.getInt("userRol", -1)
     }
 
     override fun onDestroyView() {

@@ -14,12 +14,14 @@ data class EventEntity(
     var title: String,
     @ColumnInfo(name = "event_location")
     var location: String,
-    @ColumnInfo(name = "event_adminId")
-    var adminId: String,
+    @ColumnInfo(name = "event_userId")
+    var userId: String, // <- clave para filtrar
     @ColumnInfo(name = "event_places")
     var places: Int = 0,
-    @ColumnInfo(name = "event_shareable")
-    var shareable: Boolean,
+    @ColumnInfo(name = "event_dateIni")
+    var dateIni: String,
+    @ColumnInfo(name = "event_dateEnd")
+    var dateEnd: String,
     @ColumnInfo(name = "event_status")
     val status: String
 )

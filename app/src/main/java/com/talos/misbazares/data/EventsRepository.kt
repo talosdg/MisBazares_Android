@@ -23,10 +23,7 @@ class EventsRepository(
     suspend fun getEventsWithStatus(status: String): List<EventEntity> {
         return eventsDAO.getEventsWithStatus(status)
     }
-
-    suspend fun getEventsForAdmin(adminId: Long): List<EventEntity> =
-        eventsDAO.getEventsForAdmin(adminId)
-
-
+    suspend fun getEventsForUser(userId: String): List<EventEntity> =
+        eventsDAO.getEventsForUser(userId)
 
 }

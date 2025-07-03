@@ -23,10 +23,11 @@ class EventDialog(
     private val newEvent: Boolean = true, // aviso de existencia de entidad
     private var event: EventEntity = EventEntity(
         title = "",
-        adminId = "",
+        userId = "",
         location = "",
         places = 0,
-        shareable = false,
+        dateIni = "",
+        dateEnd = "",
         status = ""
     ),
     private val updateUI: () -> Unit, // funcion de actualizacion como parametro
@@ -49,10 +50,9 @@ class EventDialog(
 
         binding.apply {
             tietTitle.setText(event.title)
-            tietAdmin.setText(event.adminId)
+            tietAdmin.setText(event.userId)
             tietLocation.setText(event.location)
             tietPlaces.setText(event.places.toString())
-            tieShareable.setText(event.shareable.toString())
         }
 
         dialog = if(newEvent)
@@ -60,10 +60,10 @@ class EventDialog(
                 // Guardar
                 binding.apply{
                     event.title = tietTitle.text.toString()
-                    event.adminId = tietAdmin.text.toString()
+                    event.userId = tietAdmin.text.toString()
                     event.location = tietLocation.text.toString()
                     event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
-                    event.shareable = tieShareable.text.toString().toBoolean()
+
                 }
                 try{
                     lifecycleScope.launch {
@@ -92,10 +92,10 @@ class EventDialog(
                 // Actualizar
                 binding.apply{
                     event.title = tietTitle.text.toString()
-                    event.adminId = tietAdmin.text.toString()
+                    event.userId = tietAdmin.text.toString()
                     event.location = tietLocation.text.toString()
                     event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
-                    event.shareable = tieShareable.text.toString().toBoolean()
+
                 }
                 try{
                     lifecycleScope.launch {

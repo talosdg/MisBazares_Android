@@ -69,10 +69,9 @@ class SellersEventsFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(event.title)
             .setMessage("""
-                Admin: ${event.adminId}
+                Admin: ${event.userId}
                 Lugar: ${event.location}
                 Cupos: ${event.places}
-                Compartible: ${event.shareable}
             """.trimIndent())
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
