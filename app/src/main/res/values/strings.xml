@@ -41,6 +41,11 @@
     <string name="startDate">Fecha de inicio</string>
     <string name="endDate">Fecha de termino</string>
     <string name="icono_header">icono de encabezado</string>
+    <string name="no_sellers">No hay usuarios con petición</string>
+    <string name="icon_theme">Icono del tema</string>
+    <string name="seller_name">Nombre del usuario</string>
+    <string name="events_list">Listado de eventos</string>
+    <string name="cero">0</string>
 
 
     <!-- DROPDOWN ROL ITEMS VALUES -->

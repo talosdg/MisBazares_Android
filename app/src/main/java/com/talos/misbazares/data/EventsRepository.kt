@@ -20,4 +20,13 @@ class EventsRepository(
     suspend fun deleteEvent(event: EventEntity){
         eventsDAO.deleteEvent(event)
     }
+    suspend fun getEventsWithStatus(status: String): List<EventEntity> {
+        return eventsDAO.getEventsWithStatus(status)
+    }
+
+    suspend fun getEventsForAdmin(adminId: Long): List<EventEntity> =
+        eventsDAO.getEventsForAdmin(adminId)
+
+
+
 }

@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_sellers"
-        android:icon="@drawable/baseline_miscellaneous_services_24"
+        android:icon="@drawable/baseline_person_4_24"
         android:title="@string/title_sellers" />
 
     <item

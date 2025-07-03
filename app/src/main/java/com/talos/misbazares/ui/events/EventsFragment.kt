@@ -1,11 +1,13 @@
 package com.talos.misbazares.ui.events
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,18 @@ class EventsFragment : Fragment() {
     private var events: MutableList<EventEntity> = mutableListOf()
     private lateinit var repository: EventsRepository
     private lateinit var eventAdapter: EventsAdapter
+    val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+
+    val userId = sharedPrefs.getLong("userId", -1L)
+    val userRol = sharedPrefs.getInt("userRol", -1)
+
+
+    private val viewModel: EventsViewModel by viewModels {
+        EventsViewModelFactory(
+            (requireActivity().application as EventsDBApp).eventsRepository
+        )
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +52,8 @@ class EventsFragment : Fragment() {
 
         repository = (requireActivity().application as EventsDBApp).eventsRepository
 
+
+
         eventAdapter = EventsAdapter { selectedEvent ->
             val dialog = EventDialog(
                 newEvent = false,
@@ -47,6 +63,18 @@ class EventsFragment : Fragment() {
             )
             dialog.show(parentFragmentManager, "dialog2")
         }
+
+        viewModel.adminEventsLiveData.observe(viewLifecycleOwner) { events ->
+            // Aquí actualizas el Adapter
+            eventAdapter.updatelist(events.toMutableList())
+        }
+
+        // ejemplo: adminId obtenido de sesión
+        val adminId = getAdminIdFromSession()
+        viewModel.loadAdminEvents(adminId)
+
+
+
 
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = eventAdapter
@@ -60,6 +88,11 @@ class EventsFragment : Fragment() {
                 message = { text -> message(text) }
             )
         }
+    }
+
+    private fun getAdminIdFromSession(): Long {
+        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return sharedPrefs.getLong("userId", -1L)
     }
 
     private fun updateUI() {

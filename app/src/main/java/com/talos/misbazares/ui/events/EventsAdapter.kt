@@ -37,10 +37,11 @@ class EventsAdapter(
         }
 
     }
-    fun updatelist(list: MutableList<EventEntity>){
-        events = list
+    fun updatelist(list: List<EventEntity>) {
+        events = list.toMutableList()
         notifyDataSetChanged()
     }
+
 
 
 }

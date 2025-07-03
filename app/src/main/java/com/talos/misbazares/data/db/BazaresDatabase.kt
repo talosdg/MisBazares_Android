@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.talos.misbazares.data.db.model.EventEntity
+import com.talos.misbazares.data.db.model.InscriptionEntity
 import com.talos.misbazares.data.db.model.UsersEntity
 import com.talos.misbazares.util.Constants
 
 @Database(
-    entities = [EventEntity::class, UsersEntity::class], // en los corchetes , UserEntity::class
+    entities = [EventEntity::class, UsersEntity::class, InscriptionEntity::class],
     version = 1,
     exportSchema = true // se obvió para migración
 )
@@ -18,6 +19,7 @@ abstract class BazaresDatabase : RoomDatabase() {
     // Aquí los DAO con anotaciones
     abstract fun eventsDao(): EventsDAO
     abstract fun usersDao(): UsersDAO
+    abstract fun inscriptionDao(): InscriptionDao
 
     companion object{
         @Volatile

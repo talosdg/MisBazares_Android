@@ -11,7 +11,7 @@ data class UsersEntity(
     @ColumnInfo(name = "user_id")
     var id: Long = 0,
     @ColumnInfo(name = "user_rol")
-    var rol: Long = 0,
+    var rol: Int = 0,
     @ColumnInfo(name = "user_name")
     var name: String,
     @ColumnInfo(name = "user_secondname")
@@ -20,4 +20,6 @@ data class UsersEntity(
     var email: String,
     @ColumnInfo(name = "user_events")
     var events: String,
+    @ColumnInfo(name = "user_password")
+    var password: String,
 )

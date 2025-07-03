@@ -9,15 +9,17 @@ import com.talos.misbazares.util.Constants
 data class EventEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "event_id")
-    var id: Long = 0,
+    var id: Int = 0,
     @ColumnInfo(name = "event_title")
     var title: String,
     @ColumnInfo(name = "event_location")
     var location: String,
-    @ColumnInfo(name = "event_admin")
-    var admin: String,
+    @ColumnInfo(name = "event_adminId")
+    var adminId: String,
     @ColumnInfo(name = "event_places")
     var places: Int = 0,
     @ColumnInfo(name = "event_shareable")
     var shareable: Boolean,
+    @ColumnInfo(name = "event_status")
+    val status: String
 )

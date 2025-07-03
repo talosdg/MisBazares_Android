@@ -26,6 +26,13 @@ interface EventsDAO {
     @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE } WHERE event_id = :eventId")
     suspend fun getAllEvents(eventId: Long): EventEntity?
 
+    @Query("SELECT * FROM events_data_table WHERE event_status = :status")
+    suspend fun getEventsWithStatus(status: String): List<EventEntity>
+
+    @Query("SELECT * FROM events_data_table WHERE event_adminId = :adminId")
+    suspend fun getEventsForAdmin(adminId: Long): List<EventEntity>
+
+
     @Transaction
 
     // Update

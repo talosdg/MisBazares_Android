@@ -23,10 +23,11 @@ class EventDialog(
     private val newEvent: Boolean = true, // aviso de existencia de entidad
     private var event: EventEntity = EventEntity(
         title = "",
-        admin = "",
+        adminId = "",
         location = "",
         places = 0,
-        shareable = false
+        shareable = false,
+        status = ""
     ),
     private val updateUI: () -> Unit, // funcion de actualizacion como parametro
     private val  message: (String) -> Unit // Lambda par ano perder contexto de dialog en dialog
@@ -48,7 +49,7 @@ class EventDialog(
 
         binding.apply {
             tietTitle.setText(event.title)
-            tietAdmin.setText(event.admin)
+            tietAdmin.setText(event.adminId)
             tietLocation.setText(event.location)
             tietPlaces.setText(event.places.toString())
             tieShareable.setText(event.shareable.toString())
@@ -59,7 +60,7 @@ class EventDialog(
                 // Guardar
                 binding.apply{
                     event.title = tietTitle.text.toString()
-                    event.admin = tietAdmin.text.toString()
+                    event.adminId = tietAdmin.text.toString()
                     event.location = tietLocation.text.toString()
                     event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
                     event.shareable = tieShareable.text.toString().toBoolean()
@@ -91,7 +92,7 @@ class EventDialog(
                 // Actualizar
                 binding.apply{
                     event.title = tietTitle.text.toString()
-                    event.admin = tietAdmin.text.toString()
+                    event.adminId = tietAdmin.text.toString()
                     event.location = tietLocation.text.toString()
                     event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
                     event.shareable = tieShareable.text.toString().toBoolean()
@@ -171,13 +172,16 @@ class EventDialog(
                 tietPlaces // falta booleano de shareable
             )
         }
+
     }
+
+
 
     private fun validateFields(): Boolean =
 
         binding.tietTitle.text.toString().isNotEmpty()
                 && binding.tietLocation.text.toString().isNotEmpty()
-                && binding.tietAdmin.text.toString().isNotEmpty()
+              /*  && binding.tietAdmin.text.toString().isNotEmpty()*/
                 && binding.tietPlaces.text.toString().isNotEmpty()
 
     private fun setupTextWatcher(vararg textField: TextInputEditText){

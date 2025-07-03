@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#EEEEEE"
+    android:fitsSystemWindows="true"
     tools:context=".ui.sellers.SellersFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_marginTop="150dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSellers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Soy sellers fragment" />
+        android:layout_gravity="center_vertical|center_horizontal"
+        app:layout_anchor="@+id/tvSinSellers"
+        app:layout_anchorGravity="center" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvSinSellers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_sellers"
+        android:textSize="25sp"
+        android:visibility="invisible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

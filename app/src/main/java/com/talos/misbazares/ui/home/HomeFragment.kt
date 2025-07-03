@@ -1,5 +1,6 @@
 package com.talos.misbazares.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaSyncEvent.createEvent
 import android.os.Bundle
@@ -9,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import com.talos.misbazares.NewEventActivity
 import com.talos.misbazares.R
+import com.talos.misbazares.application.EventsDBApp
 import com.talos.misbazares.confirmExitOnBackPress
 import com.talos.misbazares.databinding.FragmentHomeBinding
 import com.talos.misbazares.showDetail
@@ -23,19 +26,23 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    val viewModel: HomeViewModel by viewModels() {
+        HomeViewModelFactory(
+            (requireActivity().application as EventsDBApp).usersRepository
+        )
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+
 
         val textView: TextView = binding.tvWelcome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = "Bienvenido XYZ " // dato dinámico it
-        }
+
 
         binding.btTriggerEvent.setOnClickListener {
             showDetail(
@@ -61,6 +68,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         confirmExitOnBackPress()
+
+        val userId = getUserIdFromSession()
+        viewModel.loadUserById(userId)
+
+        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+
+                binding.tvWelcome.text = "${user.name} ${user.secondname}"
+               // binding.tvUserRole.text = if (user.rol == 2) "Admin" else "Seller"
+            } else {
+                // Maneja error de usuario no encontrado
+            }
+        }
+
+    }
+
+    private fun getUserIdFromSession(): Long {
+        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return sharedPrefs.getLong("userId", -1L)
     }
 
     override fun onDestroyView() {
