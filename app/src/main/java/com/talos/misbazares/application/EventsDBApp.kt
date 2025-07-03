@@ -67,6 +67,46 @@ class EventsDBApp: Application() {
                         events = ""
                     )
                 )
+                usersRepository.insertUser(
+                    UsersEntity(
+                        name = "ana",
+                        secondname = "Gómez",
+                        email = "ana@bazares.com",
+                        password = "clave123",
+                        rol = 0,
+                        events = ""
+                    )
+                )
+                usersRepository.insertUser(
+                    UsersEntity(
+                        name = "gina",
+                        secondname = "López",
+                        email = "gina@bazares.com",
+                        password = "admin123",
+                        rol = 2,
+                        events = ""
+                    )
+                )
+                usersRepository.insertUser(
+                    UsersEntity(
+                        name = "angel",
+                        secondname = "Gómez",
+                        email = "angel@bazares.com",
+                        password = "clave123",
+                        rol = 0,
+                        events = ""
+                    )
+                )
+                usersRepository.insertUser(
+                    UsersEntity(
+                        name = "marco",
+                        secondname = "Gómez",
+                        email = "marco@bazares.com",
+                        password = "clave123",
+                        rol = 0,
+                        events = ""
+                    )
+                )
             }
         }
     }
