@@ -45,4 +45,20 @@ interface InscriptionDao {
     @Query("SELECT * FROM ${Constants.DATABASE_INSCRIPTIONS_TABLE}")
     suspend fun getAll(): List<InscriptionEntity>
 
+    @Query("""
+    SELECT * FROM ${Constants.DATABASE_INSCRIPTIONS_TABLE}
+    WHERE event_id = :eventId AND status = 'solicitado'
+""")
+    suspend fun getSolicitudesForEvent(eventId: Int): List<InscriptionEntity>
+
+    @Query("SELECT * FROM ${Constants.DATABASE_INSCRIPTIONS_TABLE} WHERE status = 'solicitado'")
+    suspend fun getAllSolicitudes(): List<InscriptionEntity>
+
+
+    @Query("""
+    SELECT * FROM  ${Constants.DATABASE_INSCRIPTIONS_TABLE} 
+    WHERE seller_id = :sellerId AND status = 'solicitado'
+""")
+    suspend fun getSolicitudesForSeller(sellerId: Long): List<InscriptionEntity>
+
 }

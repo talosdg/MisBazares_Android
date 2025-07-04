@@ -9,6 +9,13 @@
     <color name="aloegreen">#509963</color>
     <color name="lightyellow">#FFF1D1</color>
 
+    <color name="lighgreen">#D9F4E1</color>
+    <color name="lighblue">#E1F2FF</color>
+    <color name="lighred">#FFDBDB</color>
+    <color name="lightgray">#50799A</color>
+
+
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 

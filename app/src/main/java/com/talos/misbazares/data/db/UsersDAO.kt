@@ -29,6 +29,12 @@ interface UsersDAO {
     @Query("SELECT * FROM users_table WHERE user_name = :userName AND user_password = :password LIMIT 1")
     suspend fun login(userName: String, password: String): UsersEntity?
 
+    @Query("SELECT * FROM users_table WHERE user_rol = 0")
+    suspend fun getAllSellers(): List<UsersEntity>
+
+
+
+
 
     // Update
     @Update

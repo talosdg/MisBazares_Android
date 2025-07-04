@@ -9,6 +9,7 @@ class SellersViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(seller: UsersEntity){ // aqui brinca de Users a Sellers
 
+
         var fullenameSeller = seller.name + " " + seller.secondname
 
         binding.apply{

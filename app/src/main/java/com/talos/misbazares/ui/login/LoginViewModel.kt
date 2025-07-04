@@ -19,17 +19,8 @@ class LoginViewModel(
     private val _loginState = MutableLiveData<LoginUiState>()
     val loginState: LiveData<LoginUiState> get() = _loginState
 
-
-
     fun login(username: String, password: String) {
-
-
-
-
         viewModelScope.launch {
-
-
-
             val user = usersRepository.login(username, password)
             Log.d("LoginViewModel", "Usuario encontrado: $user")
             if (user != null) {
@@ -39,10 +30,7 @@ class LoginViewModel(
             }
         }
     }
-
-
 }
-
 sealed class LoginUiState {
     data class Success(val userId: Long, val userRol: Int) : LoginUiState()
     data class Error(val message: String) : LoginUiState()

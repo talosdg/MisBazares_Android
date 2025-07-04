@@ -23,6 +23,10 @@ class UsersRepository(
         return usersDAO.getUserById(userId)
     }
 
+
+    suspend fun getAllSellers(): List<UsersEntity> = usersDAO.getAllSellers()
+
+
     suspend fun login(userName: String, password: String): UsersEntity? {
         return usersDAO.login(userName, password)
     }

@@ -12,20 +12,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_login)
-
         supportFragmentManager.commit {
-
             replace<LoginFragment>(R.id.login_container)
-
-           //
-            //setReorderingAllowed(true)
-            //addToBackStack("replacement")
         }
-
     }
-
-
-
-
-
 }

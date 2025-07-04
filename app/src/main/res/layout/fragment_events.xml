@@ -14,7 +14,8 @@
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="45dp"
+        android:layout_gravity="center_horizontal"
         app:layout_anchor="@+id/tvSinRegistros"
         app:layout_anchorGravity="center" />
 

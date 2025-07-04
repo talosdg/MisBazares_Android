@@ -2,9 +2,11 @@ package com.talos.misbazares.ui.events
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.core.view.isGone
@@ -98,7 +100,7 @@ class EventDialog(
     private fun guardarNuevoEventoConStatus(status: String) {
         binding.apply {
             event.title = tietTitle.text.toString()
-            event.userId = tietAdmin.text.toString()
+            event.userId = getUserIdFromSession().toString()
             event.location = tietLocation.text.toString()
             event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
             event.status = status
@@ -107,7 +109,9 @@ class EventDialog(
         try {
             lifecycleScope.launch {
                 repository.insertEvent(event)
+                Log.d("DebugEventos", "Guardando evento como $status desde EventDialog con userId=${event.userId}  ")
                 message("El evento se ha generado como $status")
+                event.userId = getUserIdFromSession().toString()
                 updateUI()
             }
         } catch (e: IOException) {
@@ -115,6 +119,11 @@ class EventDialog(
             message("Error al guardar el evento")
         }
     }
+    private fun getUserIdFromSession(): Long {
+        val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return prefs.getLong("userId", -1L)
+    }
+
 
     private fun actualizarEstado(nuevoStatus: String) {
         binding.apply {

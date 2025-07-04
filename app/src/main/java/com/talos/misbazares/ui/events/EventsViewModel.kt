@@ -1,39 +1,32 @@
 package com.talos.misbazares.ui.events
 
+
 import androidx.lifecycle.*
 import com.talos.misbazares.data.EventsRepository
+import com.talos.misbazares.data.InscriptionRepository
 import com.talos.misbazares.data.db.model.EventEntity
 import kotlinx.coroutines.launch
+
 class EventsViewModel(
-    private val eventsRepository: EventsRepository
+    private val repository: EventsRepository
 ) : ViewModel() {
 
-    private val _eventsLiveData = MutableLiveData<List<EventEntity>>()
-    val eventsLiveData: LiveData<List<EventEntity>> get() = _eventsLiveData
+    private val _eventsLiveData = MutableLiveData<MutableList<EventEntity>>()
+    val eventsLiveData: LiveData<MutableList<EventEntity>> = _eventsLiveData
 
-    // Para user
     fun loadUserEvents(userId: String) {
         viewModelScope.launch {
-            val events = eventsRepository.getEventsForUser(userId)
-            _eventsLiveData.postValue(events)
+            val eventos = repository.getAllEventsForUser(userId)
+            _eventsLiveData.postValue(eventos)
         }
     }
 
-
-    // Para Seller
-    fun loadPublishedEvents() {
+    fun loadAllEvents() {
         viewModelScope.launch {
-            val events = eventsRepository.getEventsWithStatus("publicado")
-            _eventsLiveData.postValue(events)
-        }
-    }
-
-    // General
-    fun refreshAllEvents() {
-        viewModelScope.launch {
-            val allEvents = eventsRepository.getAllEvents()
-            _eventsLiveData.postValue(allEvents)
+            val eventos = repository.getAllEvents()
+            _eventsLiveData.postValue(eventos)
         }
     }
 }
+
 

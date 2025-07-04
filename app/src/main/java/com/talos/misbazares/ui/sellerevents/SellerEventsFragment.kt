@@ -26,7 +26,9 @@ class SellersEventsFragment : Fragment() {
     private var _binding: FragmentSellerEventsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var eventsAdapter: EventsAdapter
+
+    private lateinit var sellerEventsAdapter: SellerEventsAdapter
+
 
     private val viewModel: SellerEventsViewModel by viewModels {
         SellerEventsViewModelFactory(
@@ -45,44 +47,46 @@ class SellersEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sellerEventsAdapter = SellerEventsAdapter { selectedItem ->
+            showEventDetail(selectedItem)
+        }
+
+        binding.rvEvents.adapter = sellerEventsAdapter
+
+
+        binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvEvents.adapter = sellerEventsAdapter
 
         viewModel.sellerEventsState.observe(viewLifecycleOwner) { state ->
             Log.d("SellersEventsFragment", "Eventos recibidos: ${state.disponibles.size}")
-            renderizarEventos(state)
-        }
-
-
-
-
-        eventsAdapter = EventsAdapter { selectedEvent ->
-            showEventDetail(selectedEvent)
-        }
-
-        binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvEvents.adapter = eventsAdapter
-
-        // Observa el estado
-        viewModel.sellerEventsState.observe(viewLifecycleOwner) { state ->
-            renderizarEventos(state)
+            renderizarSellerEventos(state)
         }
 
         // Simular ID del vendedor logueado
         val sellerId = 1L
         viewModel.loadSellerEvents(sellerId)
+
+        viewModel.sellerEventsState.observe(viewLifecycleOwner) { state ->
+            renderizarSellerEventos(state)
+        }
+
     }
 
-    private fun renderizarEventos(state: SellerEventsUiState) {
-        val todos = mutableListOf<EventEntity>()
-        todos.addAll(state.disponibles)
-        todos.addAll(state.solicitados)
-        todos.addAll(state.aceptados)
-        todos.addAll(state.cancelados)
-        eventsAdapter.updatelist(todos)
+    private fun renderizarSellerEventos(state: SellerEventsUiState) {
+        val items = mutableListOf<SellerEventItem>()
+        items.addAll(state.disponibles.map { SellerEventItem(it, null) })
+        items.addAll(state.solicitados.map { SellerEventItem(it, "solicitado") })
+        items.addAll(state.aceptados.map { SellerEventItem(it, "aceptado") })
+        items.addAll(state.cancelados.map { SellerEventItem(it, "cancelado") })
+
+        sellerEventsAdapter.updateList(items)
     }
 
 
-    private fun showEventDetail(event: EventEntity) {
-        val sellerId = 1L // o tu forma de obtenerlo
+
+    private fun showEventDetail(item: SellerEventItem) {
+        val event = item.event
+        val sellerId = 1L
 
         val builder = AlertDialog.Builder(requireContext())
             .setTitle(event.title)
@@ -90,20 +94,20 @@ class SellersEventsFragment : Fragment() {
             Admin: ${event.userId}
             Lugar: ${event.location}
             Cupos: ${event.places}
-            Estado: ${event.status}
+            Estado: ${item.inscriptionStatus ?: "disponible"}
         """.trimIndent())
             .setNegativeButton("Cerrar", null)
 
-        if (event.status == "publicado") {
+        if (item.inscriptionStatus == null) {
             builder.setPositiveButton("Solicitar inscripción") { _, _ ->
                 viewModel.insertInscription(event.id, sellerId, "solicitado")
-                Log.d(TAG, "Insertando inscripción: eventId=${event.id}, sellerId=${sellerId}, status=${event.status}")
                 Toast.makeText(requireContext(), "Solicitud enviada", Toast.LENGTH_SHORT).show()
             }
         }
 
         builder.show()
     }
+
 
 
     override fun onDestroyView() {

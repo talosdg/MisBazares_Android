@@ -1,15 +1,19 @@
 package com.talos.misbazares.ui.sellers
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.talos.misbazares.application.EventsDBApp
 import com.talos.misbazares.data.db.model.UsersEntity
 import com.talos.misbazares.databinding.FragmentSellersBinding
-import com.talos.misbazares.ui.login.UserAuth
+
 
 class SellersFragment : Fragment() {
 
@@ -17,7 +21,20 @@ class SellersFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var sellersAdapter: SellersAdapter
-    private var sellers: MutableList<UsersEntity> = mutableListOf()
+    private lateinit var solicitudesAdapter: SolicitudesAdapter
+
+    private val sellersViewModel: SellersViewModel by viewModels {
+        SellersViewModelFactory(
+            (requireActivity().application as EventsDBApp).usersRepository
+        )
+    }
+
+    private val solicitudesViewModel: SolicitudesViewModel by viewModels {
+        SolicitudesViewModelFactory(
+            (requireActivity().application as EventsDBApp).inscriptionRepository
+        )
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,36 +47,61 @@ class SellersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sellersAdapter = SellersAdapter { selectedSeller ->
-            val dialog = SellerDialog(
-                seller = selectedSeller,
-                message = { msg -> showMessage(msg) }
-            )
-            dialog.show(parentFragmentManager, "dialogoSeller")
+        // Inicializa adaptadores con sus lambdas de click
+        sellersAdapter = SellersAdapter { seller ->
+            showSellerDetail(seller)
         }
 
+        solicitudesAdapter = SolicitudesAdapter { solicitud ->
+            solicitudesViewModel.aprobarSolicitud(solicitud)
+        }
+
+        // Configura RecyclerViews
         binding.rvSellers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSellers.adapter = sellersAdapter
 
-        updateUI()
+        binding.rvSolicitudes.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSolicitudes.adapter = solicitudesAdapter
+
+        // Observa LiveData de ViewModel
+        sellersViewModel.sellers.observe(viewLifecycleOwner) { lista ->
+            sellersAdapter.updatelist(lista.toMutableList())
+        }
+
+        // Carga datos al entrar al fragment
+        sellersViewModel.loadSellers()
+        solicitudesViewModel.loadSolicitudes()
     }
 
-    private fun updateUI() {
-        sellers = UserAuth.getAllSellers().toMutableList()
-        sellersAdapter.updatelist(sellers)
+    private fun showSellerDetail(seller: UsersEntity) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Detalles del vendedor")
+            .setMessage(
+                """
+                Nombre: ${seller.name} ${seller.secondname}
+                Rol: ${seller.rol}
+            """.trimIndent()
+            )
+            .setPositiveButton("Cerrar", null)
+            .show()
     }
 
-
-    private fun showMessage(text: String) {
-        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun getFakeSellers(): MutableList<UsersEntity> {
-        return mutableListOf(
-            UsersEntity(name = "Juana",  secondname = "López", email ="mimail@mail.com",  rol = 2, events ="", password = "clave123"),
-            UsersEntity(name = "Carlos", secondname = "Pérez",  email ="mimail@mail.com", rol = 2, events ="", password = "clave123"),
-            UsersEntity(name = "María",  secondname = "Gómez", email ="mimail@mail.com",  rol = 2, events ="", password = "clave123")
-        )
+    private fun aprobarSolicitud(solicitud: SolicitudItem) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Aprobar solicitud")
+            .setMessage(
+                """
+                Vendedor: ${solicitud.sellerName}
+                Evento ID: ${solicitud.eventId}
+                Status actual: ${solicitud.status}
+            """.trimIndent()
+            )
+            .setPositiveButton("Aprobar") { _, _ ->
+                solicitudesViewModel.aprobarSolicitud(solicitud)
+                Toast.makeText(requireContext(), "Solicitud aprobada", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     override fun onDestroyView() {

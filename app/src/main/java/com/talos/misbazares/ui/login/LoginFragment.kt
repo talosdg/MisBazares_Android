@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
         viewModel.loginState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoginUiState.Success -> {
-                    saveSession(state.userId, state.userRol) // ✅ orden correcta
+                    saveSession(state.userId, state.userRol)
                     navigateByRole(state.userId, state.userRol)
                 }
                 is LoginUiState.Error -> {
@@ -75,8 +75,6 @@ class LoginFragment : Fragment() {
             Log.d("LoginDebug", "Usuarios en DB:")
             allUsers.forEach { Log.d("LoginDebug", it.toString()) }
         }
-
-
     }
     private fun saveSession(userId: Long, userRol: Int) {
         val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
@@ -84,8 +82,10 @@ class LoginFragment : Fragment() {
             .putLong("userId", userId)
             .putInt("userRol", userRol)
             .apply()
-    }
 
+        Log.d("Mi userId en LoginFragment fun saveSession: ", userId.toString())
+        Log.d("Mi userRol en LoginFragment fun saveSession: ", userRol.toString())
+    }
 
     private fun navigateByRole(userId: Long, rol: Int) {
         // Guardar sesión
@@ -94,6 +94,9 @@ class LoginFragment : Fragment() {
             .putLong("userId", userId)
             .putInt("userRol", rol)
             .apply()
+
+        Log.d("Mi userId en LoginFragment fun navigatByRol: ", userId.toString())
+        Log.d("Mi rol en LoginFragment fun navigatByRol: ", rol.toString())
 
         val intent = if (rol == 2) {  // admin
             Intent(requireContext(), MainActivity::class.java)

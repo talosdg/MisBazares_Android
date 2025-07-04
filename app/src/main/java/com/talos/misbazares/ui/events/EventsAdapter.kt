@@ -7,10 +7,9 @@ import com.talos.misbazares.data.db.model.EventEntity
 import com.talos.misbazares.databinding.EventElementBinding
 
 class EventsAdapter(
-    private val onEventClick : (EventEntity) -> Unit
-): RecyclerView.Adapter<EventsViewHolder>() {
+    private val onEventClick: (EventEntity) -> Unit
+) : RecyclerView.Adapter<EventsViewHolder>() {
 
-    // arreglo eventos
     private var events: List<EventEntity> = emptyList()
 
     override fun onCreateViewHolder(
@@ -29,14 +28,14 @@ class EventsAdapter(
     ) {
         val event = events[position]
         holder.bind(event)
-
         holder.itemView.setOnClickListener {
-            //clic de cada elemento RECIBE LA LAMBDA
             onEventClick(event)
         }
     }
+
     fun updatelist(list: List<EventEntity>) {
-        events = list.toMutableList()
+        events = list
         notifyDataSetChanged()
     }
 }
+

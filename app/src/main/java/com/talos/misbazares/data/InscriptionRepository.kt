@@ -32,4 +32,14 @@ class InscriptionRepository(
         return inscriptionDao.getAll()
     }
 
+    suspend fun getSolicitudesForEvent(eventId: Int): List<InscriptionEntity> {
+        return inscriptionDao.getSolicitudesForEvent(eventId)
+    }
+    suspend fun getAllSolicitudes(): List<InscriptionEntity> = inscriptionDao.getAllSolicitudes()
+
+    suspend fun getSolicitudesForSeller(sellerId: Long): List<InscriptionEntity> {
+        return inscriptionDao.getSolicitudesForSeller(sellerId)
+    }
+
+
 }

@@ -32,6 +32,13 @@ interface EventsDAO {
     @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE event_userId = :userId")
     suspend fun getEventsForUser(userId: String): List<EventEntity>
 
+    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE event_userId = :userId")
+    suspend fun getEventsForAdmin(userId: String): List<EventEntity>
+
+    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE event_userId = :userId")
+    suspend fun getAllEventsForUser(userId: String): MutableList<EventEntity>
+
+
 
     @Transaction
     // Update

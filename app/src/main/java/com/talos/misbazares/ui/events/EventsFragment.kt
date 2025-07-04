@@ -1,7 +1,9 @@
 package com.talos.misbazares.ui.events
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,13 +48,10 @@ class EventsFragment : Fragment() {
 
         repository = (requireActivity().application as EventsDBApp).eventsRepository
 
-        val userRol = getUserRolFromSession() // uso posterior
+        val userRol = getUserRolFromSession()
+        val userId = getUserIdFromSession()
 
-        fun getUserIdAsString(): String {
-            val id = getUserIdFromSession()
-            return id.toString()
-        }
-        viewModel.loadUserEvents(getUserIdAsString())
+        viewModel.loadUserEvents(userId.toString())
 
         eventAdapter = EventsAdapter { selectedEvent ->
             val dialog = EventDialog(
@@ -63,14 +62,31 @@ class EventsFragment : Fragment() {
             )
             dialog.show(parentFragmentManager, "dialog2")
         }
+        val userIdLong = getUserIdFromSession()
+        val userIdString = userIdLong.toString()
+
+        Log.d("DebugEventos", "ID en sesión (Long) = $userIdLong")
+        Log.d("DebugEventos", "ID en sesión (String) = $userIdString")
+
+        viewModel.loadUserEvents(userIdString)
         viewModel.eventsLiveData.observe(viewLifecycleOwner) { events ->
-        // Aquí actualizas el Adapter
+            Log.d("DebugEventos", "Eventos recibidos (${events.size}):")
+            events.forEach {
+                Log.d("DebugEventos", "Evento: ${it.title}, userId=${it.userId}")
+            }
+
             updateUI()
             eventAdapter.updatelist(events.toMutableList())
         }
 
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = eventAdapter
+
+        /*viewModel.eventsLiveData.observe(viewLifecycleOwner) { events ->
+            binding.tvSinRegistros.visibility =
+                if (events.isNotEmpty()) View.INVISIBLE else View.VISIBLE
+            eventAdapter.updateList(events)
+        }*/
 
         binding.fabAddEvent.setOnClickListener {
             showDetail(
@@ -79,15 +95,26 @@ class EventsFragment : Fragment() {
                 message = { text -> message(text) }
             )
         }
+
+
+
+
+
+
     }
 
     private fun updateUI() {
         viewLifecycleOwner.lifecycleScope.launch {
-            events = repository.getAllEvents()
+            val userId = getUserIdAsString()
+            events = repository.getEventsForAdmin(userId)
             binding.tvSinRegistros.visibility =
                 if (events.isNotEmpty()) View.INVISIBLE else View.VISIBLE
             eventAdapter.updatelist(events)
         }
+    }
+    private fun getUserIdAsString(): String {
+        val id = getUserIdFromSession()
+        return id.toString()
     }
 
     private fun message(text: String) {
@@ -102,6 +129,11 @@ class EventsFragment : Fragment() {
     private fun getUserRolFromSession(): Int {
         val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
         return prefs.getInt("userRol", -1)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateUI()
     }
 
     override fun onDestroyView() {

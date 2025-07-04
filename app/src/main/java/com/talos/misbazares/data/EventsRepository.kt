@@ -26,4 +26,13 @@ class EventsRepository(
     suspend fun getEventsForUser(userId: String): List<EventEntity> =
         eventsDAO.getEventsForUser(userId)
 
+    suspend fun getEventsForAdmin(userId: String): MutableList<EventEntity> {
+        return eventsDAO.getEventsForAdmin(userId).toMutableList()
+    }
+    suspend fun getAllEventsForUser(userId: String): MutableList<EventEntity> {
+        return eventsDAO.getAllEventsForUser(userId)
+    }
+
+
+
 }
