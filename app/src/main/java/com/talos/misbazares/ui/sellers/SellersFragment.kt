@@ -2,17 +2,19 @@ package com.talos.misbazares.ui.sellers
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.talos.misbazares.application.EventsDBApp
+import com.talos.misbazares.data.db.model.InscriptionEntity
 import com.talos.misbazares.data.db.model.UsersEntity
 import com.talos.misbazares.databinding.FragmentSellersBinding
+import kotlinx.coroutines.launch
 
 
 class SellersFragment : Fragment() {
@@ -51,10 +53,12 @@ class SellersFragment : Fragment() {
         sellersAdapter = SellersAdapter { seller ->
             showSellerDetail(seller)
         }
-
-        solicitudesAdapter = SolicitudesAdapter { solicitud ->
-            solicitudesViewModel.aprobarSolicitud(solicitud)
+        solicitudesAdapter = SolicitudesAdapter { inscriptionEntity ->
+            mostrarDialogoDecision(inscriptionEntity)
         }
+
+
+        solicitudesViewModel.loadSolicitudes()
 
         // Configura RecyclerViews
         binding.rvSellers.layoutManager = LinearLayoutManager(requireContext())
@@ -67,6 +71,11 @@ class SellersFragment : Fragment() {
         sellersViewModel.sellers.observe(viewLifecycleOwner) { lista ->
             sellersAdapter.updatelist(lista.toMutableList())
         }
+        solicitudesViewModel.solicitudes.observe(viewLifecycleOwner) { lista ->
+            solicitudesAdapter.updateList(lista)
+        }
+
+
 
         // Carga datos al entrar al fragment
         sellersViewModel.loadSellers()
@@ -86,23 +95,26 @@ class SellersFragment : Fragment() {
             .show()
     }
 
-    private fun aprobarSolicitud(solicitud: SolicitudItem) {
+    private fun mostrarDialogoDecision(inscription: InscriptionEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Aprobar solicitud")
-            .setMessage(
-                """
-                Vendedor: ${solicitud.sellerName}
-                Evento ID: ${solicitud.eventId}
-                Status actual: ${solicitud.status}
-            """.trimIndent()
-            )
+            .setTitle("Decidir solicitud")
+            .setMessage("¿Aprobar o rechazar la solicitud del vendedor?")
             .setPositiveButton("Aprobar") { _, _ ->
-                solicitudesViewModel.aprobarSolicitud(solicitud)
-                Toast.makeText(requireContext(), "Solicitud aprobada", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    solicitudesViewModel.aprobarSolicitud(inscription)
+                }
+
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton("Rechazar") { _, _ ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    solicitudesViewModel.rechazarSolicitud(inscription)
+                }
+            }
+            .setNeutralButton("Cancelar", null)
             .show()
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

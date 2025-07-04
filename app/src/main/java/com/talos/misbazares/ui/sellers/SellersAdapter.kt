@@ -33,7 +33,6 @@ private val onSellerClick : (UsersEntity) -> Unit
         holder.bind(seller)
 
         holder.itemView.setOnClickListener {
-            //clic de cada elemento RECIBE LA LAMBDA
             onSellerClick(seller)
         }
 

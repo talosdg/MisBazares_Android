@@ -6,7 +6,8 @@ import com.talos.misbazares.data.db.model.InscriptionEntity
 import kotlinx.coroutines.launch
 
 class SolicitudesViewModel(
-    private val inscriptionRepository: InscriptionRepository
+    private val inscriptionRepository: InscriptionRepository,
+
 ) : ViewModel() {
 
     private val _solicitudes = MutableLiveData<List<InscriptionEntity>>()
@@ -19,15 +20,28 @@ class SolicitudesViewModel(
         }
     }
 
-    fun aprobarSolicitud(solicitud: SolicitudItem) {
+    fun aprobarSolicitud(inscription: InscriptionEntity) {
         viewModelScope.launch {
             inscriptionRepository.updateInscriptionStatus(
-                eventId = solicitud.eventId,
-                sellerId = solicitud.sellerId,
+                eventId = inscription.eventId,
+                sellerId = inscription.sellerId,
                 newStatus = "aceptado"
             )
-            loadSolicitudes() // refresca la lista
+            loadSolicitudes()
         }
     }
+
+    fun rechazarSolicitud(inscription: InscriptionEntity) {
+        viewModelScope.launch {
+            inscriptionRepository.updateInscriptionStatus(
+                eventId = inscription.eventId,
+                sellerId = inscription.sellerId,
+                newStatus = "rechazado"
+            )
+            loadSolicitudes()
+        }
+    }
+
+
 
 }
