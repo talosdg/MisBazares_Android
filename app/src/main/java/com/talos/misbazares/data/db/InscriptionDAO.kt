@@ -41,4 +41,8 @@ interface InscriptionDao {
         LIMIT 1
     """)
     suspend fun getInscription(eventId: Int, sellerId: Long): InscriptionEntity?
+
+    @Query("SELECT * FROM ${Constants.DATABASE_INSCRIPTIONS_TABLE}")
+    suspend fun getAll(): List<InscriptionEntity>
+
 }

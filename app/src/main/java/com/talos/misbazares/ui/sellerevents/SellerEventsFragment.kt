@@ -1,12 +1,14 @@
 package com.talos.misbazares.ui.sellerevents
 
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,23 +72,39 @@ class SellersEventsFragment : Fragment() {
     }
 
     private fun renderizarEventos(state: SellerEventsUiState) {
-        // Por ahora mostramos solo "disponibles"
-        eventsAdapter.updatelist(state.disponibles)
+        val todos = mutableListOf<EventEntity>()
+        todos.addAll(state.disponibles)
+        todos.addAll(state.solicitados)
+        todos.addAll(state.aceptados)
+        todos.addAll(state.cancelados)
+        eventsAdapter.updatelist(todos)
     }
 
+
     private fun showEventDetail(event: EventEntity) {
-        AlertDialog.Builder(requireContext())
+        val sellerId = 1L // o tu forma de obtenerlo
+
+        val builder = AlertDialog.Builder(requireContext())
             .setTitle(event.title)
             .setMessage("""
-                Admin: ${event.userId}
-                Lugar: ${event.location}
-                Cupos: ${event.places}
-            """.trimIndent())
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
+            Admin: ${event.userId}
+            Lugar: ${event.location}
+            Cupos: ${event.places}
+            Estado: ${event.status}
+        """.trimIndent())
+            .setNegativeButton("Cerrar", null)
+
+        if (event.status == "publicado") {
+            builder.setPositiveButton("Solicitar inscripción") { _, _ ->
+                viewModel.insertInscription(event.id, sellerId, "solicitado")
+                Log.d(TAG, "Insertando inscripción: eventId=${event.id}, sellerId=${sellerId}, status=${event.status}")
+                Toast.makeText(requireContext(), "Solicitud enviada", Toast.LENGTH_SHORT).show()
             }
-            .show()
+        }
+
+        builder.show()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

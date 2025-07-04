@@ -28,4 +28,8 @@ class InscriptionRepository(
     suspend fun getInscription(eventId: Int, sellerId: Long): InscriptionEntity? {
         return inscriptionDao.getInscription(eventId, sellerId)
     }
+    suspend fun getAllInscriptions(): List<InscriptionEntity> {
+        return inscriptionDao.getAll()
+    }
+
 }

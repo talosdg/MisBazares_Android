@@ -1,5 +1,6 @@
 package com.talos.misbazares.ui.sellerevents
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +27,16 @@ class SellerEventsViewModel(
             val inscriptions = inscriptionRepository.getInscriptionsForSeller(sellerId)
             val state = classifyEvents(events, inscriptions)
             _sellerEventsState.postValue(state)
+
+            Log.d("EventosViewModel", "Inscriptions: ${inscriptions.size}")
+
+            //Log.d("EventosViewModel", "Clasificados: disponibles=${disponibles.size}, solicitados=${solicitados.size}")
+            Log.d("EventosViewModel", "Evento status=${events}")
+           // Log.d("SellerEventsFragment", "Eventos renderizados: ${eventsAdapter.itemCount}")
+
         }
+
+
     }
 
     private fun classifyEvents(
