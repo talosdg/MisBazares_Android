@@ -19,6 +19,7 @@ class EventsViewModel(
         }
     }
 
+
     // Para Seller
     fun loadPublishedEvents() {
         viewModelScope.launch {

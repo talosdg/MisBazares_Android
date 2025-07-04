@@ -2,34 +2,30 @@ package com.talos.misbazares.data
 
 import com.talos.misbazares.data.db.InscriptionDao
 import com.talos.misbazares.data.db.model.InscriptionEntity
-
-class InscriptionRepository(private val inscriptionDao: InscriptionDao) {
-
-    suspend fun solicitarInscripcion(eventId: Int, sellerId: Long) {
-        inscriptionDao.insertInscription(
-            InscriptionEntity(eventId, sellerId, "solicitado")
-        )
+class InscriptionRepository(
+    private val inscriptionDao: InscriptionDao
+) {
+    suspend fun insertInscription(inscription: InscriptionEntity) {
+        inscriptionDao.insertInscription(inscription)
     }
 
-    suspend fun aprobarInscripcion(eventId: Int, sellerId: Long) {
-        inscriptionDao.updateStatus(eventId, sellerId, "aceptado")
+    suspend fun updateInscriptionStatus(eventId: Int, sellerId: Long, newStatus: String) {
+        inscriptionDao.updateStatus(eventId, sellerId, newStatus)
     }
 
-    suspend fun rechazarInscripcion(eventId: Int, sellerId: Long) {
-        inscriptionDao.updateStatus(eventId, sellerId, "rechazado")
+    suspend fun deleteInscription(inscription: InscriptionEntity) {
+        inscriptionDao.deleteInscription(inscription)
     }
 
-    suspend fun cancelarInscripcion(eventId: Int, sellerId: Long) {
-        inscriptionDao.deleteInscription(
-            InscriptionEntity(eventId, sellerId, "")
-        )
-    }
-
-    suspend fun obtenerInscripcionesVendedor(sellerId: Long): List<InscriptionEntity> {
+    suspend fun getInscriptionsForSeller(sellerId: Long): List<InscriptionEntity> {
         return inscriptionDao.getInscriptionsForSeller(sellerId)
     }
 
-    suspend fun obtenerInscripcionesEvento(eventId: Int): List<InscriptionEntity> {
+    suspend fun getInscriptionsForEvent(eventId: Int): List<InscriptionEntity> {
         return inscriptionDao.getInscriptionsForEvent(eventId)
+    }
+
+    suspend fun getInscription(eventId: Int, sellerId: Long): InscriptionEntity? {
+        return inscriptionDao.getInscription(eventId, sellerId)
     }
 }

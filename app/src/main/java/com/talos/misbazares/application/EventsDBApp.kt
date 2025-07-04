@@ -28,18 +28,14 @@ class EventsDBApp: Application() {
         InscriptionRepository(database.inscriptionDao())
     }
 
-    // propiedad para fábrica de ViewModel compartido
     val DetailViewModelFactory by lazy {
         DetailViewModelFactory(eventsRepository)
     }
     override fun onCreate() {
         super.onCreate()
 
-        // Esto ya lo tienes
         val database = BazaresDatabase.getDatabase(this)
-        // tus repos ya están definidos...
 
-        // Agregamos bootstrap
         prepopulateUsers()
     }
 

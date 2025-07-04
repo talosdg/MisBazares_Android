@@ -28,7 +28,7 @@ class EventDialog(
         places = 0,
         dateIni = "",
         dateEnd = "",
-        status = ""
+        status = "pendiente"
     ),
     private val updateUI: () -> Unit, // funcion de actualizacion como parametro
     private val  message: (String) -> Unit // Lambda par ano perder contexto de dialog en dialog
@@ -55,100 +55,91 @@ class EventDialog(
             tietPlaces.setText(event.places.toString())
         }
 
-        dialog = if(newEvent)
-            buildDialog("Guardar", "Cancelar", {
-                // Guardar
-                binding.apply{
-                    event.title = tietTitle.text.toString()
-                    event.userId = tietAdmin.text.toString()
-                    event.location = tietLocation.text.toString()
-                    event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
-
+        dialog = if (newEvent) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Nuevo evento")
+                .setView(binding.root)
+                .setPositiveButton("Publicar") { _, _ ->
+                    guardarNuevoEventoConStatus("publicado")
                 }
-                try{
-                    lifecycleScope.launch {
-                        val result =async {
-                            repository.insertEvent(event)
-                        }
-
-                        result.await() //espera la construcción completa de la vista
-                        message("El evento se ha generado")
-
-                        updateUI() // función pasada por parametro lambda
-                    }
-                }catch (e: IOException){
-                    e.printStackTrace()
-                    message("Error al guardar el evento")
-
-                }catch (e: IOException){
-                    e.printStackTrace()
+                .setNeutralButton("Dejar pendiente") { _, _ ->
+                    guardarNuevoEventoConStatus("pendiente")
                 }
-
-            }, {
-                // Cancelar
-            })
-        else
-            buildDialog("Actualizar", "Eliminar", {
-                // Actualizar
-                binding.apply{
-                    event.title = tietTitle.text.toString()
-                    event.userId = tietAdmin.text.toString()
-                    event.location = tietLocation.text.toString()
-                    event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
-
-                }
-                try{
-                    lifecycleScope.launch {
-                        val result =async {
-                            repository.updateEvent(event)
-                        }
-
-                        result.await() //espera la construcción completa de la vista
-                        message("El evento se ha actualizado")
-
-                        updateUI() // función pasada por parametro lambda
-                    }
-                }catch (e: IOException){
-                    e.printStackTrace()
-                    message("Error al actualizar el evento")
-
-                }catch (e: IOException){
-                    e.printStackTrace()
-                }
-            }, {
-                // Eliminar
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Confirmación")
-                    .setMessage("¿Realmente quieres eliminar el evento ${event.title}?")
-                    .setPositiveButton("Aceptar") {_, _ ->
-                        try{
-                            lifecycleScope.launch {
-                                val result =async {
-                                    repository.deleteEvent(event)
-                                }
-
-                                result.await() //espera la construcción completa de la vista
-                                message("El evento se ha eliminado") // funcion de toaster
-
-                                updateUI() // función pasada por parametro lambda
-                            }
-                        }catch (e: IOException){
-                            e.printStackTrace()
-                            message("Error al eliminar el evento")
-
-                        }catch (e: IOException){
-                            e.printStackTrace()
-                        }
-                    }
-                    .setNegativeButton("Cancelar") {  dialogInterface, _ ->
-                        dialogInterface.dismiss()
-                    }
-                    .create()
-                    .show()
-            })
+                .setNegativeButton("Cancelar", null)
+                .create()
+        } else {
+            when (event.status) {
+                "pendiente" -> buildDialog(
+                    "Publicar", "Cancelar ",
+                    { actualizarEstado("publicado") },
+                    { /*desistir*/  }
+                )
+                "publicado" -> buildDialog(
+                    "Dejar pendiente", "Cancelar evento",
+                    { actualizarEstado("pendiente") },
+                    { actualizarEstado("cancelado") }
+                )
+                "cancelado" -> buildDialog(
+                    "Eliminar", "Cancelar",
+                    { eliminarEvento() },
+                    { /* cerrar */ }
+                )
+                else -> buildDialog(
+                    "Actualizar", "Eliminar",
+                    { actualizarEstado(event.status ?: "pendiente") },
+                    { eliminarEvento() }
+                )
+            }
+        }
 
         return dialog
     }
+
+    private fun guardarNuevoEventoConStatus(status: String) {
+        binding.apply {
+            event.title = tietTitle.text.toString()
+            event.userId = tietAdmin.text.toString()
+            event.location = tietLocation.text.toString()
+            event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
+            event.status = status
+        }
+
+        try {
+            lifecycleScope.launch {
+                repository.insertEvent(event)
+                message("El evento se ha generado como $status")
+                updateUI()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            message("Error al guardar el evento")
+        }
+    }
+
+    private fun actualizarEstado(nuevoStatus: String) {
+        binding.apply {
+            event.title = tietTitle.text.toString()
+            event.userId = tietAdmin.text.toString()
+            event.location = tietLocation.text.toString()
+            event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
+            event.status = nuevoStatus
+        }
+
+        lifecycleScope.launch {
+            repository.updateEvent(event)
+            message("Evento actualizado a $nuevoStatus")
+            updateUI()
+        }
+    }
+
+    private fun eliminarEvento() {
+        lifecycleScope.launch {
+            repository.deleteEvent(event)
+            message("Evento eliminado")
+            updateUI()
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -162,7 +153,8 @@ class EventDialog(
         repository = (requireContext().applicationContext as EventsDBApp).eventsRepository
 
         saveButton = (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE)
-        saveButton?.isEnabled = false
+        // saveButton?.isEnabled = false EL ORIGINAL
+        saveButton?.isEnabled = validateFields()
 
         binding.apply{
             setupTextWatcher(

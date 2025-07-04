@@ -65,13 +65,12 @@ class EventsFragment : Fragment() {
         }
         viewModel.eventsLiveData.observe(viewLifecycleOwner) { events ->
         // Aquí actualizas el Adapter
+            updateUI()
             eventAdapter.updatelist(events.toMutableList())
         }
 
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = eventAdapter
-
-        updateUI()
 
         binding.fabAddEvent.setOnClickListener {
             showDetail(

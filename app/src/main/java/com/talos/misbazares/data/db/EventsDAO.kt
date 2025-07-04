@@ -29,12 +29,11 @@ interface EventsDAO {
     @Query("SELECT * FROM events_data_table WHERE event_status = :status")
     suspend fun getEventsWithStatus(status: String): List<EventEntity>
 
-    @Query("SELECT * FROM events_data_table WHERE event_userId = :userId")
+    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE event_userId = :userId")
     suspend fun getEventsForUser(userId: String): List<EventEntity>
 
 
     @Transaction
-
     // Update
     @Update
     suspend fun updateEvent(event: EventEntity)
@@ -45,7 +44,4 @@ interface EventsDAO {
     // Delete
     @Delete
     suspend fun deleteEvent(event: EventEntity)
-
-
-
 }

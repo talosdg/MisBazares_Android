@@ -23,5 +23,5 @@ data class EventEntity(
     @ColumnInfo(name = "event_dateEnd")
     var dateEnd: String,
     @ColumnInfo(name = "event_status")
-    val status: String
+    var status: String
 )

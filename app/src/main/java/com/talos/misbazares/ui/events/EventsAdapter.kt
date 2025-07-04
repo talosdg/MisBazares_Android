@@ -7,7 +7,6 @@ import com.talos.misbazares.data.db.model.EventEntity
 import com.talos.misbazares.databinding.EventElementBinding
 
 class EventsAdapter(
-
     private val onEventClick : (EventEntity) -> Unit
 ): RecyclerView.Adapter<EventsViewHolder>() {
 
@@ -35,13 +34,9 @@ class EventsAdapter(
             //clic de cada elemento RECIBE LA LAMBDA
             onEventClick(event)
         }
-
     }
     fun updatelist(list: List<EventEntity>) {
         events = list.toMutableList()
         notifyDataSetChanged()
     }
-
-
-
 }

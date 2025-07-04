@@ -17,29 +17,18 @@ class DetailViewModel(
     private val _showEventDialog = MutableLiveData<EventDialogAction?>()
     val showEventDialog: LiveData<EventDialogAction?> = _showEventDialog
 
-    /**
-     * Lanza la acción para mostrar el diálogo de creación de un nuevo evento.
-     */
     fun createEvent() {
         _showEventDialog.value = EventDialogAction.ShowDialog(newEvent = true)
     }
 
-    /**
-     * Lanza la acción para mostrar el diálogo para editar un evento existente.
-     */
     fun editEvent(event: EventEntity) {
         _showEventDialog.value = EventDialogAction.ShowDialog(newEvent = false, event = event)
     }
 
-    /**
-     * Debe llamarse después de que el diálogo se haya mostrado para evitar que se muestre de nuevo
-     * en rotaciones de pantalla u otros cambios de configuración.
-     */
     fun eventDialogShown() {
         _showEventDialog.value = null // Reinicia el valor para que no se active de nuevo
     }
 
-    // Aquí podrías añadir LiveData o funciones para manejar los mensajes Toast
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 

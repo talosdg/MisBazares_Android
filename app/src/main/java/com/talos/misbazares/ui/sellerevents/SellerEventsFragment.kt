@@ -2,6 +2,7 @@ package com.talos.misbazares.ui.sellerevents
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,6 @@ class SellersEventsFragment : Fragment() {
             (requireActivity().application as EventsDBApp).inscriptionRepository
         )
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +42,15 @@ class SellersEventsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        viewModel.sellerEventsState.observe(viewLifecycleOwner) { state ->
+            Log.d("SellersEventsFragment", "Eventos recibidos: ${state.disponibles.size}")
+            renderizarEventos(state)
+        }
+
+
+
 
         eventsAdapter = EventsAdapter { selectedEvent ->
             showEventDetail(selectedEvent)

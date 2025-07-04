@@ -23,7 +23,7 @@ class SellerEventsViewModel(
     fun loadSellerEvents(sellerId: Long) {
         viewModelScope.launch {
             val events = eventsRepository.getEventsWithStatus("publicado")
-            val inscriptions = inscriptionRepository.obtenerInscripcionesVendedor(sellerId)
+            val inscriptions = inscriptionRepository.getInscriptionsForSeller(sellerId)
             val state = classifyEvents(events, inscriptions)
             _sellerEventsState.postValue(state)
         }
@@ -61,10 +61,25 @@ class SellerEventsViewModel(
         )
     }
 
-    fun solicitarInscripcion(eventId: Int, sellerId: Long) {
+
+    fun insertInscription(eventId: Int, sellerId: Long, status: String) {
         viewModelScope.launch {
-            inscriptionRepository.solicitarInscripcion(eventId, sellerId)
+            inscriptionRepository.insertInscription(
+                InscriptionEntity(
+                    eventId = eventId,
+                    sellerId = sellerId,
+                    status = status
+                )
+            )
             loadSellerEvents(sellerId)
         }
     }
+    fun updateInscriptionStatus(eventId: Int, sellerId: Long, newStatus: String) {
+        viewModelScope.launch {
+            inscriptionRepository.updateInscriptionStatus(eventId, sellerId, newStatus)
+            loadSellerEvents(sellerId)
+        }
+    }
+
+
 }
