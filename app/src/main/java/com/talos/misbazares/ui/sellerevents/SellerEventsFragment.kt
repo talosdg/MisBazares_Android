@@ -100,7 +100,7 @@ class SellersEventsFragment : Fragment() {
                 val intent = Intent(requireContext(), SellerMapActivity::class.java)
                 // Si quieres pasar datos del evento, puedes usar extras:
                 intent.putExtra("eventId", event.id)
-                intent.putExtra("eventTitle", event.title)
+                intent.putExtra("location", event.location)
                 startActivity(intent)
             }
 
