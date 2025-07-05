@@ -15,8 +15,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.talos.misbazares.R
 
-
-
 class SellerMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
@@ -29,9 +27,7 @@ class SellerMapActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
-
     override fun onMapReady(googleMap: GoogleMap) {
-
 
         val locationString = intent.getStringExtra("location") ?: "Av. Universidad 3000"
 
