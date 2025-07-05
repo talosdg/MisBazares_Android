@@ -3,6 +3,9 @@ package com.talos.misbazares
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -11,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentManager
 import com.talos.misbazares.ui.events.EventDialog
+
 
 fun Activity.toast(text: String){
     Toast.makeText(
@@ -79,4 +84,10 @@ fun showDetail(
         message = message
     )
     dialog.show(fragmentManager, "dialogo1")
+}
+fun isNetworkAvailable(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network = connectivityManager.activeNetwork
+    val capabilities = connectivityManager.getNetworkCapabilities(network)
+    return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
 }

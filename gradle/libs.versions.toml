@@ -21,6 +21,7 @@ activity = "1.10.1"
 annotation = "1.6.0"
 navigationFragmentKtxVersion = "2.9.0"
 navigationUiKtxVersion = "2.9.0"
+playServicesMaps = "19.2.0"
 roomCompiler = "2.7.1"
 roomKtx = "2.7.1"
 
@@ -48,6 +49,7 @@ material-vultimaversion = { module = "com.google.android.material:material", ver
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
