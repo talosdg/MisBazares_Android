@@ -95,12 +95,7 @@ class EventsFragment : Fragment() {
                 message = { text -> message(text) }
             )
         }
-
-
-
-
-
-
+        
     }
 
     private fun updateUI() {

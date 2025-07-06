@@ -48,6 +48,9 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btLogin.setOnClickListener {
+
+            binding.root.hideKeyboard()
+
             val username = binding.etUser.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 

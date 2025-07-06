@@ -26,7 +26,7 @@ object UserAuth {
     }
 
     /**
-     * Lista de todos los usuarios (para simular la lista de sellers)
+     * Lista de sellers
      */
     fun getAllSellers(): List<UsersEntity> {
         return usuarios
@@ -36,7 +36,7 @@ object UserAuth {
             }
     }
 
-    /*** Lista de todos los admins
+    /*** Lista de admins
 
     fun getAllAdmins(): List<UsersEntity> {
         return usuarios

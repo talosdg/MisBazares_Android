@@ -1,10 +1,15 @@
 package com.talos.misbazares.ui.events
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -20,6 +25,8 @@ import com.talos.misbazares.databinding.EventsDialogBinding
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.time.LocalDate
+import java.util.Locale
 
 class EventDialog(
     private val newEvent: Boolean = true, // aviso de existencia de entidad
@@ -44,6 +51,9 @@ class EventDialog(
     private var saveButton: Button? = null
 
     private lateinit var repository: EventsRepository
+
+    private var selectedStartCalendar: Calendar? = null
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -102,10 +112,14 @@ class EventDialog(
             event.title = tietTitle.text.toString()
             event.userId = getUserIdFromSession().toString()
             event.location = tietLocation.text.toString()
-            event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
+            event.places = tietPlaces.text.toString().toIntOrNull() ?: 10
+            event.dateIni = tieStartDate.text.toString()
+            event.dateEnd = tieEndDate.text.toString()
             event.status = status
         }
 
+
+// fin datepicker ******
         try {
             lifecycleScope.launch {
                 repository.insertEvent(event)
@@ -149,7 +163,6 @@ class EventDialog(
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -157,6 +170,11 @@ class EventDialog(
 
     override fun onStart() {
         super.onStart()
+
+
+        // datepicker ***********
+        setupDateField(binding.tieStartDate) { showStartDatePicker() }
+        setupDateField(binding.tieEndDate) { showEndDatePicker() }
 
         // instancia del repo acceso desde fragment requireContext().applicationContext
         repository = (requireContext().applicationContext as EventsDBApp).eventsRepository
@@ -176,7 +194,74 @@ class EventDialog(
 
     }
 
+    private fun setupDateField(field: TextInputEditText, showPicker: () -> Unit) {
+        // Deshabilitar el teclado
+        field.inputType = InputType.TYPE_NULL
+        field.keyListener = null
+        field.isFocusable = true
+        field.isFocusableInTouchMode = true
 
+        // Click
+        field.setOnClickListener {
+            field.clearFocus() // Evita doble llamado
+            showPicker()
+        }
+
+        // Focus
+        field.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                field.clearFocus()
+                showPicker()
+            }
+        }
+    }
+
+    private fun showDatePicker(targetView: TextInputEditText) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            val dateString = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+            targetView.setText(dateString)
+        }, year, month, day)
+
+        datePicker.show()
+    }
+
+    private fun showStartDatePicker() {
+        val today = Calendar.getInstance()
+
+        DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            val selected = Calendar.getInstance()
+            selected.set(year, month, dayOfMonth)
+            selectedStartCalendar = selected // ✅ la guardamos
+
+            val formatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selected.time)
+            binding.tieStartDate.setText(formatted)
+        },
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun showEndDatePicker() {
+        val start = selectedStartCalendar ?: Calendar.getInstance()
+
+        DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            val selected = Calendar.getInstance()
+            selected.set(year, month, dayOfMonth)
+
+            val formatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selected.time)
+            binding.tieEndDate.setText(formatted)
+        },
+            start.get(Calendar.YEAR),
+            start.get(Calendar.MONTH),
+            start.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 
     private fun validateFields(): Boolean =
 
