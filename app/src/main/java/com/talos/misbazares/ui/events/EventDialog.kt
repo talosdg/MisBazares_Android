@@ -22,6 +22,7 @@ import com.talos.misbazares.application.EventsDBApp
 import com.talos.misbazares.data.EventsRepository
 import com.talos.misbazares.data.db.model.EventEntity
 import com.talos.misbazares.databinding.EventsDialogBinding
+import com.talos.misbazares.hideKeyboard
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -65,6 +66,9 @@ class EventDialog(
             tietAdmin.setText(event.userId)
             tietLocation.setText(event.location)
             tietPlaces.setText(event.places.toString())
+            tieStartDate.setText(event.dateIni)
+            tieEndDate.setText(event.dateEnd)
+
         }
 
         dialog = if (newEvent) {
@@ -117,8 +121,6 @@ class EventDialog(
             event.dateEnd = tieEndDate.text.toString()
             event.status = status
         }
-
-
 // fin datepicker ******
         try {
             lifecycleScope.launch {
@@ -145,6 +147,8 @@ class EventDialog(
             event.userId = tietAdmin.text.toString()
             event.location = tietLocation.text.toString()
             event.places = tietPlaces.text.toString().toIntOrNull() ?: 0
+            event.dateIni = tieStartDate.text.toString()
+            event.dateEnd = tieEndDate.text.toString()
             event.status = nuevoStatus
         }
 
@@ -188,7 +192,9 @@ class EventDialog(
                 tietTitle,
                 tietLocation,
                 tietAdmin,
-                tietPlaces // falta booleano de shareable
+                tietPlaces,
+                tieStartDate,
+                tieEndDate
             )
         }
 
@@ -203,10 +209,9 @@ class EventDialog(
 
         // Click
         field.setOnClickListener {
-            field.clearFocus() // Evita doble llamado
+            field.clearFocus()
             showPicker()
         }
-
         // Focus
         field.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -216,23 +221,10 @@ class EventDialog(
         }
     }
 
-    private fun showDatePicker(targetView: TextInputEditText) {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePicker = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            val dateString = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
-            targetView.setText(dateString)
-        }, year, month, day)
-
-        datePicker.show()
-    }
 
     private fun showStartDatePicker() {
         val today = Calendar.getInstance()
-
+        binding.root.hideKeyboard()
         DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
             val selected = Calendar.getInstance()
             selected.set(year, month, dayOfMonth)
@@ -249,7 +241,7 @@ class EventDialog(
 
     private fun showEndDatePicker() {
         val start = selectedStartCalendar ?: Calendar.getInstance()
-
+        binding.root.hideKeyboard()
         DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
             val selected = Calendar.getInstance()
             selected.set(year, month, dayOfMonth)
@@ -269,6 +261,8 @@ class EventDialog(
                 && binding.tietLocation.text.toString().isNotEmpty()
               /*  && binding.tietAdmin.text.toString().isNotEmpty()*/
                 && binding.tietPlaces.text.toString().isNotEmpty()
+                && binding.tieStartDate.text.toString().isNotEmpty()
+                && binding.tieEndDate.text.toString().isNotEmpty()
 
     private fun setupTextWatcher(vararg textField: TextInputEditText){
         val textWatcher = object : TextWatcher {
