@@ -54,8 +54,7 @@ class EventDialog(
     private lateinit var repository: EventsRepository
 
     private var selectedStartCalendar: Calendar? = null
-
-
+    
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
         super.onCreateDialog(savedInstanceState)
@@ -68,7 +67,6 @@ class EventDialog(
             tietPlaces.setText(event.places.toString())
             tieStartDate.setText(event.dateIni)
             tieEndDate.setText(event.dateEnd)
-
         }
 
         dialog = if (newEvent) {
