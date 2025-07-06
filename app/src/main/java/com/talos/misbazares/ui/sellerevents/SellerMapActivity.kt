@@ -28,7 +28,7 @@ class SellerMapActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
     override fun onMapReady(googleMap: GoogleMap) {
-
+        map = googleMap
         val locationString = intent.getStringExtra("location") ?: "Av. Universidad 3000"
 
         val latLng = getLocationFromAddress(locationString)

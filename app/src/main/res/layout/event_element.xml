@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    >
 
     <androidx.cardview.widget.CardView
 
@@ -27,14 +28,14 @@
 
             <ImageView
                 android:id="@+id/ivIcon"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_margin="8dp"
-                android:contentDescription="Imagen"
+                android:contentDescription="@string/icon_store"
                 android:outlineProvider="bounds"
                 android:padding="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ico_event"
+                android:src="@drawable/baseline_storefront_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,10 +44,11 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/rose"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,9 +62,9 @@
                 android:id="@+id/tvLocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="14sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -75,24 +77,25 @@
                 android:id="@+id/tvStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="8dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivIcon"
                 app:layout_constraintTop_toBottomOf="@id/tvLocation"
                 tools:text="Status"
+                android:visibility="gone"
                 app:layout_constraintVertical_bias="0.04"/>
             <TextView
                 android:id="@+id/tvAdmin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="8dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivIcon"
@@ -102,19 +105,19 @@
                 app:layout_constraintVertical_bias="0.04"/>
 
             <TextView
-                android:id="@+id/tvPlaces"
+                android:id="@+id/tvDates"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="14sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/ivIcon"
                 app:layout_constraintTop_toBottomOf="@id/tvStatus"
                 app:layout_constraintVertical_bias="0.2"
-                tools:text="Lugares" />
+                tools:text="Fechas" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

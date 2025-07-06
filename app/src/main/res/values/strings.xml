@@ -46,6 +46,7 @@
     <string name="seller_name">Nombre del usuario</string>
     <string name="events_list">Listado de eventos</string>
     <string name="cero">0</string>
+    <string name="icon_store">Icono_tienda</string>
 
 
     <!-- DROPDOWN ROL ITEMS VALUES -->

@@ -91,9 +91,9 @@ class SellersEventsFragment : Fragment() {
             .setTitle(event.title)
             .setMessage("""
             Admin: ${event.userId}
-            Lugar: ${event.location}
-            Cupos: ${event.places}
-            Estado: ${item.inscriptionStatus ?: "disponible"}
+            Dirección: ${event.location}
+            Cupo: ${event.places}
+            Estatus: ${item.inscriptionStatus ?: "disponible"}
         """.trimIndent())
             .setNegativeButton("Cerrar", null)
             .setNeutralButton("Ver en mapa") { _, _ ->

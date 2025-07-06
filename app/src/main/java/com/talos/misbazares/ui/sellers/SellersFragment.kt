@@ -97,7 +97,7 @@ class SellersFragment : Fragment() {
 
     private fun mostrarDialogoDecision(inscription: InscriptionEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Decidir solicitud")
+            .setTitle("Vendedor solicitando")
             .setMessage("¿Aprobar o rechazar la solicitud del vendedor?")
             .setPositiveButton("Aprobar") { _, _ ->
                 viewLifecycleOwner.lifecycleScope.launch {

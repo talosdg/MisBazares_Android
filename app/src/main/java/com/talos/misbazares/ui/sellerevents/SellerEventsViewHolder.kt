@@ -15,6 +15,16 @@ class SellerEventsViewHolder(
         binding.tvLocation.text = event.location
         binding.tvStatus.text = item.inscriptionStatus ?: "disponible"
 
+        var fechas = "Fecha: "
+
+        if (event.dateIni == event.dateEnd) {
+            fechas += event.dateIni
+        }else{
+            fechas += "del " + event.dateIni + " al " + event.dateEnd
+        }
+
+            binding.tvDates.text = fechas
+
         val color = when (item.inscriptionStatus) {
             "solicitado" -> ContextCompat.getColor(itemView.context, R.color.lighblue)
             "aceptado" -> ContextCompat.getColor(itemView.context, R.color.lighgreen)
