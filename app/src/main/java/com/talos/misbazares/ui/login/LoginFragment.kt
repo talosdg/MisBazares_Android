@@ -41,6 +41,16 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        val savedUserId = sharedPrefs.getLong("userId", -1L)
+        val savedUserRol = sharedPrefs.getInt("userRol", -1)
+
+        if (savedUserId != -1L && savedUserRol != -1) {
+            // Ya hay sesión guardada
+            navigateByRole(savedUserId, savedUserRol)
+        }
+
+
         binding.btLogin.setOnClickListener {
 
             binding.root.hideKeyboard()

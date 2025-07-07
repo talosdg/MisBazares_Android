@@ -15,8 +15,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.talos.misbazares.LoginActivity
 import com.talos.misbazares.R
 import com.talos.misbazares.application.EventsDBApp
+import com.talos.misbazares.confirmExitOnBackPress
 import com.talos.misbazares.data.EventsRepository
 import com.talos.misbazares.data.InscriptionRepository
 import com.talos.misbazares.data.db.model.EventEntity
@@ -50,6 +52,8 @@ class SellersEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        confirmExitOnBackPress()
+
         sellerEventsAdapter = SellerEventsAdapter { selectedItem ->
             showEventDetail(selectedItem)
         }
@@ -64,6 +68,11 @@ class SellersEventsFragment : Fragment() {
         // ✅ ¡Aquí cargamos el sellerId desde la sesión!
         val sellerId = getSellerIdFromSession()
         viewModel.loadSellerEvents(sellerId)
+        val sellerWellcome = "Eventos de $sellerId"
+        binding.tvSellerName.text = sellerWellcome
+        binding.btCloseSession.setOnClickListener {
+           mostrarDialogoCerrarSesion()
+        }
     }
 
     private fun getSellerIdFromSession(): Long {
@@ -113,6 +122,28 @@ class SellersEventsFragment : Fragment() {
 
         builder.show()
     }
+
+    private fun mostrarDialogoCerrarSesion() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Cerrar sesión")
+            .setMessage("¿Estás seguro de que deseas cerrar sesión?")
+            .setPositiveButton("Sí") { _, _ ->
+                cerrarSesion()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun cerrarSesion() {
+        val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        prefs.edit().clear().apply()
+
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

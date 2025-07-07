@@ -4,20 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.content.Context.INPUT_METHOD_SERVICE
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentContainerView
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.talos.misbazares.databinding.ActivityMainBinding
-import com.talos.misbazares.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -70,6 +63,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cerrarSesion() {
+        val prefs = getSharedPreferences("session", Context.MODE_PRIVATE)
+        prefs.edit().clear().apply()
+
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

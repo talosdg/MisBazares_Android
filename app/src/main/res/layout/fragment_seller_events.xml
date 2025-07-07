@@ -1,15 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.sellerevents.SellersEventsFragment">
 
+    <TextView
+        android:id="@+id/tvSellerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/midindigo"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:padding="4dp"
+        android:text="TextView" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/events_list"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/events_list" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btCloseSession"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:text="@string/title_close_session" />
+
+
+</LinearLayout>
