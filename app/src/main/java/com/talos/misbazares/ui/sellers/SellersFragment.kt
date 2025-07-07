@@ -17,7 +17,6 @@ import com.talos.misbazares.data.db.model.UsersEntity
 import com.talos.misbazares.databinding.FragmentSellersBinding
 import kotlinx.coroutines.launch
 
-
 class SellersFragment : Fragment() {
 
     private var _binding: FragmentSellersBinding? = null
@@ -38,7 +37,6 @@ class SellersFragment : Fragment() {
             (requireActivity().application as EventsDBApp).inscriptionRepository
         )
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,8 +83,7 @@ class SellersFragment : Fragment() {
         val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
         return sharedPrefs.getLong("userId", -1L)
     }
-
-
+    
     private fun showSellerDetail(seller: UsersEntity) {
         AlertDialog.Builder(requireContext())
             .setTitle("Detalles del vendedor")
