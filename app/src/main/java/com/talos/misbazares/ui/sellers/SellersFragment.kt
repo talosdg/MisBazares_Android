@@ -37,7 +37,6 @@ class SellersFragment : Fragment() {
         )
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +56,6 @@ class SellersFragment : Fragment() {
             mostrarDialogoDecision(inscriptionEntity)
         }
 
-
         solicitudesViewModel.loadSolicitudes()
 
         // Configura RecyclerViews
@@ -74,9 +72,6 @@ class SellersFragment : Fragment() {
         solicitudesViewModel.solicitudes.observe(viewLifecycleOwner) { lista ->
             solicitudesAdapter.updateList(lista)
         }
-
-
-
         // Carga datos al entrar al fragment
         sellersViewModel.loadSellers()
         solicitudesViewModel.loadSolicitudes()

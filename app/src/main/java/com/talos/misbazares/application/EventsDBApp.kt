@@ -86,7 +86,7 @@ class EventsDBApp: Application() {
                 usersRepository.insertUser(
                     UsersEntity(
                         name = "angel",
-                        secondname = "Gómez",
+                        secondname = "Pérez",
                         email = "angel@bazares.com",
                         password = "clave123",
                         rol = 0,
@@ -96,7 +96,7 @@ class EventsDBApp: Application() {
                 usersRepository.insertUser(
                     UsersEntity(
                         name = "marco",
-                        secondname = "Gómez",
+                        secondname = "Vazquez",
                         email = "marco@bazares.com",
                         password = "clave123",
                         rol = 0,

@@ -84,19 +84,19 @@ class EventDialog(
         } else {
             when (event.status) {
                 "pendiente" -> buildDialog(
-                    "Publicar", "Cancelar ",
+                    "Publicar", "Cancelar",
                     { actualizarEstado("publicado") },
-                    { /*desistir*/  }
-                )
-                "publicado" -> buildDialog(
-                    "Dejar pendiente", "Cancelar evento",
-                    { actualizarEstado("pendiente") },
                     { actualizarEstado("cancelado") }
                 )
+                "publicado" -> buildDialog(
+                    "Dejar publicado", "Poner pendiente",
+                    { actualizarEstado("publicado") },
+                    { actualizarEstado("pendiente") }
+                )
                 "cancelado" -> buildDialog(
-                    "Eliminar", "Cancelar",
-                    { eliminarEvento() },
-                    { /* cerrar */ }
+                    "Pasar a pendiente", "Eliminar",
+                    { actualizarEstado("pendiente") },
+                    { eliminarEvento() }
                 )
                 else -> buildDialog(
                     "Actualizar", "Eliminar",

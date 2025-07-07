@@ -15,17 +15,25 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.talos.misbazares.R
 
+import com.talos.misbazares.databinding.ActivitySellerMapBinding
+
 class SellerMapActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var binding: ActivitySellerMapBinding
 
     private lateinit var map: GoogleMap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seller_map)
+
+        binding = ActivitySellerMapBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Obtén el fragmento del mapa y solicita el callback cuando esté listo
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
     }
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
