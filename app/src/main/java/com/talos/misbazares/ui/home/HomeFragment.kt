@@ -74,14 +74,12 @@ class HomeFragment : Fragment() {
 
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-
                 binding.tvWelcome.text = "${user.name} ${user.secondname}"
                // binding.tvUserRole.text = if (user.rol == 2) "Admin" else "Seller"
             } else {
                 // Maneja error de usuario no encontrado
             }
         }
-
     }
 
     private fun getUserIdFromSession(): Long {
