@@ -26,15 +26,19 @@ import com.talos.misbazares.ui.events.EventsAdapter
 import kotlinx.coroutines.launch
 
 class SellersEventsFragment : Fragment() {
+
     private var _binding: FragmentSellerEventsBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var sellerEventsAdapter: SellerEventsAdapter
+
     private val viewModel: SellerEventsViewModel by viewModels {
         SellerEventsViewModelFactory(
             (requireActivity().application as EventsDBApp).eventsRepository,
             (requireActivity().application as EventsDBApp).inscriptionRepository
         )
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,14 +61,15 @@ class SellersEventsFragment : Fragment() {
             renderizarSellerEventos(state)
         }
 
+        // ✅ ¡Aquí cargamos el sellerId desde la sesión!
         val sellerId = getSellerIdFromSession()
         viewModel.loadSellerEvents(sellerId)
     }
+
     private fun getSellerIdFromSession(): Long {
         val prefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
         return prefs.getLong("userId", -1L)
     }
-
 
     private fun renderizarSellerEventos(state: SellerEventsUiState) {
         val items = mutableListOf<SellerEventItem>()
@@ -83,17 +88,15 @@ class SellersEventsFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
             .setTitle(event.title)
             .setMessage("""
-            Dirección: ${event.location}
-            Cupo: ${event.places} + " lugares"
-            Estatus: ${item.inscriptionStatus ?: "disponible"}
-        """.trimIndent())
+                Dirección: ${event.location}
+                Cupo: ${event.places} lugares
+                Estatus: ${item.inscriptionStatus ?: "disponible"}
+            """.trimIndent())
             .setNegativeButton("Cerrar", null)
             .setNeutralButton("Ver en mapa") { _, _ ->
-
-                if (!isNetworkAvailable(requireContext())){
+                if (!isNetworkAvailable(requireContext())) {
                     Snackbar.make(binding.root, "Revise su conexión a internet", Snackbar.LENGTH_LONG).show()
-                }else{
-
+                } else {
                     val intent = Intent(requireContext(), SellerMapActivity::class.java)
                     intent.putExtra("eventId", event.id)
                     intent.putExtra("location", event.location)
@@ -107,8 +110,10 @@ class SellersEventsFragment : Fragment() {
                 Toast.makeText(requireContext(), "Solicitud enviada", Toast.LENGTH_SHORT).show()
             }
         }
+
         builder.show()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

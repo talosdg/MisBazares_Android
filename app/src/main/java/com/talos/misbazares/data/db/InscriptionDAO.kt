@@ -61,4 +61,13 @@ interface InscriptionDao {
 """)
     suspend fun getSolicitudesForSeller(sellerId: Long): List<InscriptionEntity>
 
+    @Query("""
+SELECT i.* FROM ${Constants.DATABASE_INSCRIPTIONS_TABLE} AS i
+INNER JOIN ${Constants.DATABASE_EVENTS_TABLE} AS e
+ON i.event_id = e.event_id
+WHERE e.event_userId = :adminId AND i.status = 'solicitado'
+""")
+    suspend fun getSolicitudesForAdmin(adminId: String): List<InscriptionEntity>
+
+
 }

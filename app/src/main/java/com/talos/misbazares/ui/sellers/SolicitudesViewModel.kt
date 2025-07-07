@@ -1,21 +1,23 @@
 package com.talos.misbazares.ui.sellers
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.talos.misbazares.data.InscriptionRepository
 import com.talos.misbazares.data.db.model.InscriptionEntity
 import kotlinx.coroutines.launch
 
 class SolicitudesViewModel(
-    private val inscriptionRepository: InscriptionRepository,
-
-) : ViewModel() {
+    application: Application,
+    private val inscriptionRepository: InscriptionRepository
+) : AndroidViewModel(application) {
 
     private val _solicitudes = MutableLiveData<List<InscriptionEntity>>()
     val solicitudes: LiveData<List<InscriptionEntity>> get() = _solicitudes
 
-    fun loadSolicitudes() {
+    fun loadSolicitudes(adminId: String) {
         viewModelScope.launch {
-            val listaSolicitudes = inscriptionRepository.getAllSolicitudes()
+            val listaSolicitudes = inscriptionRepository.getSolicitudesForAdmin(adminId)
             _solicitudes.postValue(listaSolicitudes)
         }
     }
@@ -27,7 +29,8 @@ class SolicitudesViewModel(
                 sellerId = inscription.sellerId,
                 newStatus = "aceptado"
             )
-            loadSolicitudes()
+            val adminId = getAdminIdFromSession()
+            loadSolicitudes(adminId)
         }
     }
 
@@ -38,10 +41,13 @@ class SolicitudesViewModel(
                 sellerId = inscription.sellerId,
                 newStatus = "rechazado"
             )
-            loadSolicitudes()
+            val adminId = getAdminIdFromSession()
+            loadSolicitudes(adminId)
         }
     }
-
-
+    private fun getAdminIdFromSession(): String {
+        val prefs = getApplication<Application>().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return prefs.getLong("userId", -1L).toString()
+    }
 
 }

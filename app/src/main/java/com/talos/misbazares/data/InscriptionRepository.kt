@@ -41,5 +41,9 @@ class InscriptionRepository(
         return inscriptionDao.getSolicitudesForSeller(sellerId)
     }
 
+    suspend fun getSolicitudesForAdmin(adminId: String): List<InscriptionEntity> {
+        return inscriptionDao.getSolicitudesForAdmin(adminId)
+    }
+
 
 }

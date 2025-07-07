@@ -1,6 +1,7 @@
 package com.talos.misbazares.ui.sellers
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,9 +34,11 @@ class SellersFragment : Fragment() {
 
     private val solicitudesViewModel: SolicitudesViewModel by viewModels {
         SolicitudesViewModelFactory(
+            (requireActivity().application as EventsDBApp),
             (requireActivity().application as EventsDBApp).inscriptionRepository
         )
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +59,8 @@ class SellersFragment : Fragment() {
             mostrarDialogoDecision(inscriptionEntity)
         }
 
-        solicitudesViewModel.loadSolicitudes()
+        val adminId = getAdminIdFromSession().toString()
+        solicitudesViewModel.loadSolicitudes(adminId)
 
         // Configura RecyclerViews
         binding.rvSellers.layoutManager = LinearLayoutManager(requireContext())
@@ -72,10 +76,16 @@ class SellersFragment : Fragment() {
         solicitudesViewModel.solicitudes.observe(viewLifecycleOwner) { lista ->
             solicitudesAdapter.updateList(lista)
         }
-        // Carga datos al entrar al fragment
-        sellersViewModel.loadSellers()
-        solicitudesViewModel.loadSolicitudes()
+
+        solicitudesViewModel.loadSolicitudes(adminId)
+
     }
+
+    private fun getAdminIdFromSession(): Long {
+        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return sharedPrefs.getLong("userId", -1L)
+    }
+
 
     private fun showSellerDetail(seller: UsersEntity) {
         AlertDialog.Builder(requireContext())
@@ -98,7 +108,6 @@ class SellersFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     solicitudesViewModel.aprobarSolicitud(inscription)
                 }
-
             }
             .setNegativeButton("Rechazar") { _, _ ->
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -108,8 +117,6 @@ class SellersFragment : Fragment() {
             .setNeutralButton("Cancelar", null)
             .show()
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
