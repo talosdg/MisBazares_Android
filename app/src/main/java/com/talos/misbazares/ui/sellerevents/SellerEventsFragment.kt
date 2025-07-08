@@ -65,11 +65,12 @@ class SellersEventsFragment : Fragment() {
             renderizarSellerEventos(state)
         }
 
-        // ✅ ¡Aquí cargamos el sellerId desde la sesión!
         val sellerId = getSellerIdFromSession()
         viewModel.loadSellerEvents(sellerId)
-        val sellerWellcome = "Eventos de $sellerId"
-        binding.tvSellerName.text = sellerWellcome
+
+        val sellerName = getSellerNameFromSession()
+        binding.tvSellerName.text = "Eventos para $sellerName"
+
         binding.btCloseSession.setOnClickListener {
            mostrarDialogoCerrarSesion()
         }
@@ -86,6 +87,8 @@ class SellersEventsFragment : Fragment() {
         items.addAll(state.solicitados.map { SellerEventItem(it, "solicitado") })
         items.addAll(state.aceptados.map { SellerEventItem(it, "aceptado") })
         items.addAll(state.cancelados.map { SellerEventItem(it, "cancelado") })
+
+        binding.tvSinEventos.visibility = if (items.isNotEmpty()) View.INVISIBLE else View.VISIBLE
 
         sellerEventsAdapter.updateList(items)
     }
@@ -122,6 +125,12 @@ class SellersEventsFragment : Fragment() {
 
         builder.show()
     }
+
+    private fun getSellerNameFromSession(): String {
+        val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
+        return sharedPrefs.getString("userName", "Vendedor") ?: "Vendedor"
+    }
+
 
     private fun mostrarDialogoCerrarSesion() {
         AlertDialog.Builder(requireContext())

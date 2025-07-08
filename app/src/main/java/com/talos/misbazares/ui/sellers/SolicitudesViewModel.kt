@@ -2,6 +2,7 @@ package com.talos.misbazares.ui.sellers
 
 import android.app.Application
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.*
 import com.talos.misbazares.data.InscriptionRepository
 import com.talos.misbazares.data.db.model.InscriptionEntity
@@ -11,6 +12,7 @@ class SolicitudesViewModel(
     application: Application,
     private val inscriptionRepository: InscriptionRepository
 ) : AndroidViewModel(application) {
+
 
     private val _solicitudes = MutableLiveData<List<InscriptionEntity>>()
     val solicitudes: LiveData<List<InscriptionEntity>> get() = _solicitudes

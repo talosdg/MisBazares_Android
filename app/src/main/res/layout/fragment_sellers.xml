@@ -8,6 +8,14 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.sellers.SellersFragment">
 
+    <TextView
+        android:id="@+id/tvSinSolicitudes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sin vendedores solicitantes"
+        android:textSize="25sp"
+        android:visibility="invisible" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSellers"
         android:layout_width="match_parent"

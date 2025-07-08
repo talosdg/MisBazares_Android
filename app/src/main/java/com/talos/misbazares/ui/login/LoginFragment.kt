@@ -23,6 +23,8 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
+    private var enteredUsername: String = ""
+
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModelFactory(
             (requireActivity().application as EventsDBApp).usersRepository,
@@ -52,11 +54,11 @@ class LoginFragment : Fragment() {
 
 
         binding.btLogin.setOnClickListener {
-
             binding.root.hideKeyboard()
-
             val username = binding.etUser.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
+
+            enteredUsername = username
 
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 viewModel.login(username, password)
@@ -68,7 +70,7 @@ class LoginFragment : Fragment() {
         viewModel.loginState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoginUiState.Success -> {
-                    saveSession(state.userId, state.userRol)
+                    saveSession(state.userId, state.userRol, enteredUsername)
                     navigateByRole(state.userId, state.userRol)
                 }
                 is LoginUiState.Error -> {
@@ -83,15 +85,17 @@ class LoginFragment : Fragment() {
             allUsers.forEach { Log.d("LoginDebug", it.toString()) }
         }
     }
-    private fun saveSession(userId: Long, userRol: Int) {
+    private fun saveSession(userId: Long, userRol: Int, userName: String) {
         val sharedPrefs = requireContext().getSharedPreferences("session", Context.MODE_PRIVATE)
         sharedPrefs.edit()
             .putLong("userId", userId)
             .putInt("userRol", userRol)
+            .putString("userName", userName)
             .apply()
 
         Log.d("Mi userId en LoginFragment fun saveSession: ", userId.toString())
         Log.d("Mi userRol en LoginFragment fun saveSession: ", userRol.toString())
+        Log.d("Mi userName en LoginFragment fun saveSession: ", userName.toString())
     }
 
     private fun navigateByRole(userId: Long, rol: Int) {

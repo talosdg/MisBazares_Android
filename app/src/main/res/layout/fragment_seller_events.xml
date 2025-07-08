@@ -17,12 +17,22 @@
         android:padding="4dp"
         android:text="TextView" />
 
+    <TextView
+        android:id="@+id/tvSinEventos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_events_to_show"
+        android:textSize="25sp"
+        android:visibility="invisible" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:contentDescription="@string/events_list" />
+
 
     <Button
         android:id="@+id/btCloseSession"

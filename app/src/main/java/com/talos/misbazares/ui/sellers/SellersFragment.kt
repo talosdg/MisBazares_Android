@@ -73,10 +73,15 @@ class SellersFragment : Fragment() {
         }
         solicitudesViewModel.solicitudes.observe(viewLifecycleOwner) { lista ->
             solicitudesAdapter.updateList(lista)
+            if (lista.isEmpty()) {
+                binding.tvSinSolicitudes.visibility = View.VISIBLE
+            } else {
+                binding.tvSinSolicitudes.visibility = View.GONE
+            }
         }
 
         solicitudesViewModel.loadSolicitudes(adminId)
-
+        
     }
 
     private fun getAdminIdFromSession(): Long {

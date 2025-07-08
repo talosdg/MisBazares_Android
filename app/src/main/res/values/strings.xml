@@ -47,6 +47,7 @@
     <string name="events_list">Listado de eventos</string>
     <string name="cero">0</string>
     <string name="icon_store">Icono_tienda</string>
+    <string name="no_events_to_show">No hay eventos disponibles</string>
 
 
     <!-- DROPDOWN ROL ITEMS VALUES -->
