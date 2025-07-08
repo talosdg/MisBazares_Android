@@ -63,11 +63,9 @@ class SellersFragment : Fragment() {
         // Configura RecyclerViews
         binding.rvSellers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSellers.adapter = sellersAdapter
-
         binding.rvSolicitudes.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSolicitudes.adapter = solicitudesAdapter
 
-        // Observa LiveData de ViewModel
         sellersViewModel.sellers.observe(viewLifecycleOwner) { lista ->
             sellersAdapter.updatelist(lista.toMutableList())
         }
@@ -79,9 +77,8 @@ class SellersFragment : Fragment() {
                 binding.tvSinSolicitudes.visibility = View.GONE
             }
         }
-
         solicitudesViewModel.loadSolicitudes(adminId)
-        
+
     }
 
     private fun getAdminIdFromSession(): Long {
